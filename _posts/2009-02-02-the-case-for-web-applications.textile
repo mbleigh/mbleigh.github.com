@@ -1,0 +1,47 @@
+---
+layout: post
+title: The Case For Web Applications
+date: February 2, 2009
+---
+
+Neil McAllister recently wrote a piece on InfoWorld entitled "The Case Against Web Apps":http://weblog.infoworld.com/fatalexception/archives/2009/01/the_case_agains.html. In it, he outlines "Five reasons why Web-based development might not be the best choice for your enterprise." Obviously, as an employee of a web application services and products company, I disagree strongly with that opinion.
+
+Web applications are not a "trend" in enterprise software development. They represent a fundamental shift in how software is developed, implemented and used in today's technological climate. But to be specific, let's go point-by-point through the "case against web apps."
+
+h3. "It's client-server all over again"
+
+It certainly is. The difference is, we're not living in a mainframe, dumb-terminal world anymore. Server infrastructure is cheap and scalable, and as more enterprises push their IT infrastructure to the cloud (see another article from InfoWorld: "IT needs to get over its cloud denial, or management will get over IT":http://weblog.infoworld.com/whurley/archives/2009/02/cloud_computing_1.html) the need for on-site datacenters will shrink and, for many companies, eventually disappear.
+
+Web applications require no client deployment, no versioning, no installation and no machine-by-machine support. There's no massive rollout procedure for a new version and no back-breaking process if there's a small but important glitch in a major release.
+
+h3. "Web UIs are a mess"
+
+When each project has specific and individual user experience needs, isn't it good to reinvent the wheel a little bit? Having a blank canvas means having the chance to build exactly what is right for this application, not shoehorning an application into pre-defined constraints.
+
+Bad web sites and bad desktop application interfaces are equally impenetrable to the average user. The success of the user experience lies not in the hands of the chosen deployment platform but in the hands of a developer with an eye for user experience. I don't think it's a stretch to posit that the majority of such developers work either on web applications or for Apple. When was the last time you saw a beautiful Visual Basic application interface?
+
+h3. "Browser technologies are too limiting."
+
+"User interface code written in such languages as C++, Objective C, or Python can often be both more efficient and more maintainable than code written for the Web paradigm." This statement rings false to me; when was the last time you saw a graphic designer who could pop open his trusty Visual Studio 2008 and recompile a project to tweak the user interface? The fundamental advantage of HTML/CSS/Javascript based interface development is that is accessible to a wholly different set of people, people who understand how users think and want to behave but don't necessarily have the programming chops to implement the actual code.
+
+The proliferation of Flash, Quicktime, and Silverlight can pretty much all be explained by one fact: HTML doesn't support embedded video. Few web developers turn to Flash or other technologies for much outside of rich multimedia playing. You also can't consider such a tool a liability when it is available for more than 99% of all web users.
+
+This also brings up a fundamental flaw in "the case against web apps": if this is an article talking about using web applications for enterprise business applications, how are any of the concerns about browser compatibility valid? Don't most enterprises have control over what browsers get used by their employees? The "refusal of Internet Explorer 6 to kick the bucket":http://news.cnet.com/8301-1023_3-10108852-93.html certainly seems to indicate that companies have a great deal of control over how employees access the internet.
+
+h3. "The big vendors call the shots."
+
+Is this untrue of any development platform short of Linux? Companies are at the whim of Microsoft when they released an in-many-cases incompatible, largely disparaged upgrade to their operating system with Vista. That's much more of a moving target than the web standards, which with the exception of Internet Explorer (another Microsoft project) make writing cross-browser, cross-operating system applications a relative ease.
+
+h3. "Should every employee have a browser?"
+
+You know what? Lots of people e-mail jokes to their families from their work accounts, let's not allow people to write e-mails anymore. I heard that sometimes people make personal calls from the office, so let's get rid of the phones, too. Not only is this point inherently distrustful of the work ethic and general competency of most employees, it doesn't even hold water: browsers can be used to access internal applications even if all outside internet access is restricted.
+
+In the end, I may have spent too much time here refuting his arguments without making the real case *for web applications*. So, very briefly, here's it is:
+
+# *Massively Agile:* Web applications can be built, deployed, and put into general use in a matter of weeks, not months or years. New features can be rolled out on a continuous basis rather than waiting a year for a new "point release."
+# *Massively Accessible:* Web applications can be accessed from any device that can access the internet, regardless of operating system or system requirements. As mobile phones become more web capable this becomes even more apparent and necessary. Desktop applications require completely separate development efforts.
+# *The Local Data Problem:* There's no need for "shared" folders and collision control on documents in a web application. Everything is on the server, everything is up-to-date as soon as it is accessed.
+# *Web is the new Desktop:* Technologies such as "Adobe AIR":http://blogs.adobe.com/air/2009/01/air_passes_100_million_install.html and site-specific browsers have made it so that web applications are becoming more and more like desktop applications, bringing the ease of development and deployment with them.
+# *Collaboration is King:* Web applications, due to their centralized nature, can naturally encourage less isolated, more collaborative work between employees.
+
+Web applications aren't the solution to every problem a business faces. If you need graphically intense 3D visualizations for your buciness, web applications probably aren't the way to go for you. But for most businesses, most of the time, web applications will be more cost-effective, more useful and more agile than the alternative.

@@ -1,0 +1,13 @@
+---
+layout: post
+title: It's No Joke - Real-Time Search is a Big Deal
+date: February 9, 2009
+---
+
+I saw the article "'Google's First Real Threat: Twitter'":http://lewmoorman.com/googles-first-real-threat-twit pop up in my RSS readers today from a couple sources and didn't click through and read; I had already learned the power of "Twitter Search":http://search.twitter.com/ on multiple occasions (see "my previous discussion here":http://intridea.com/2009/1/22/twitter-search-plus-find-replies-inline-with-twitter-search?blog=company). But then something funny happened: I got an e-mail from "O'Reilly":http://www.oreilly.com/ saying that *all three* of my "RailsConf":http://www.railsconf.com/ proposals were accepted. Then I heard from a colleague here at Intridea that his talk was accepted.
+
+This seemed, frankly, too good to be true. So I hit up Twitter Search for RailsConf, and sure enough, *everyone* seemed to be elated about getting their proposal(s) accepted. This confirmed my suspicion, and I contacted O'Reilly immediately. In fact, I contacted O'Reilly and they weren't even aware of the problem yet. I may have been the one who alerted them to the issue in the first place. Confirmation came a few minutes later "via the RailsConf Twitter account":https://twitter.com/railsconf/status/1192966267. While I'm a bit disheartened that I'm not necessarily speaking at RailsConf, it was an object lesson in just how powerful Twitter search has become.
+
+Is Twitter a *replacement* for Google? No. But Twitter provides an instantaneous connection to what is happening to people right now, and in some (many) circumstances it can give you answers that Google never would, even *after* they re-index the web. This also to me serves as a lesson in how to truly compete with Google. Don't try to 'out-Google Google' like "Cuil":http://www.cuil.com did. Instead find a way to provide a search that Google can't touch, that can't be created simply by crawling the web endlessly looking for new content.
+
+Pay attention to where Twitter search goes in the coming months and years, because it's no joke: real time search is a *big deal*.

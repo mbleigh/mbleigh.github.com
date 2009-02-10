@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Mister Bleigh - {{ page.title }}</title>
+    <link rel="stylesheet" href="/stylesheets/master.css" type="text/css" media="screen" charset="utf-8"/>
+  </head>
+  <body>
+    <div id='wrapper'>
+      <div id='header'>
+        <h1>Mister Bleigh</h1>
+        <h2>is Michael Bleigh on the web.</h2>
+      </div>
+      <div id='menu'>
+        <ul>
+          <li><a href='/'>Home</a></li>
+          <li><a href='/blog.html'>Blog</a></li>
+          <li><a href='/about.html'>About</a></li>
+          <li><a href='/open-source.html'>Open Source</a></li>
+          <li><a href='http://www.linkedin.com/in/mbleigh' target='_blank' rel='me'>LinkedIn</a></li>
+          <li><a href='http://twitter.com/mbleigh' target='_blank' rel='me'>Twitter</a></li>
+        </ul>
+      </div>
+      <div id='content'>
+        {{ content }}
+      </div>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+    (function() {
+    		var links = document.getElementsByTagName('a');
+    		var query = '?';
+    		for(var i = 0; i < links.length; i++) {
+    			if(links[i].href.indexOf('#disqus_thread') >= 0) {
+    				query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+    			}
+    		}
+    		document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/misterbleigh/get_num_replies.js' + query + '"></' + 'script>');
+    	})();
+    //]]>
+    </script>
+  </body>
+</html>

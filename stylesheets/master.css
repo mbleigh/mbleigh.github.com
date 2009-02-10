@@ -1,0 +1,154 @@
+body {
+  font-family: Arial, sans-serif;
+  letter-spacing: -0.05em;
+  background: #210;
+  color: #353B40;
+}
+
+a {
+  color: #262;
+  font-weight: bold;
+}
+
+a:visited {
+  color: #353b40;
+  font-weight: normal;
+}
+
+#wrapper {
+  width: 50em;
+  margin: 2em auto;
+  padding: 0;
+  background: #fff;
+  -moz-border-radius: 1.5em;
+  -webkit-border-radius: 1.5em;
+  border-radius: 1.5em;
+}
+
+#header {
+  text-transform: lowercase;
+  text-align: left;
+  background: #421;
+  -moz-border-radius-topleft: 1em;
+  -webkit-border-top-left-radius: 1em;
+  -moz-border-radius-topright: 1em;
+  -webkit-border-top-right-radius: 1em;  
+  border-top-left-radius: 1em;  
+  border-top-right-radius: 1em;  
+  padding: 1.5em;
+  text-align: center;
+}
+
+#header h1 {
+  font-size: 4em;
+  display: inline;
+  letter-spacing: -0.08em;
+  color: #fff;
+  font-weight: normal;
+}
+
+#header h2 {
+  display: inline;
+  margin-left: 0.5em;
+  font-size: 2em;
+  font-weight: normal;
+  color: #fed;
+}
+
+#menu {
+  background: #310;
+}
+
+#menu ul {
+  list-style: none;
+  margin: 0;
+  text-align: center;
+}
+
+#menu ul li {
+  display: inline;
+}
+
+#menu ul li a {
+  color: white;
+  font-size: 1.3em;
+  padding: 0 0.5em;
+  line-height: 2.5em;  
+  font-weight: normal;
+}
+
+#content {
+  padding: 2em;
+}
+
+#content h2 {
+  margin: 0 0 0.5em 0;
+  color: black;
+  font-size: 1.5em;
+}
+
+#content p {
+  line-height: 140%;
+  letter-spacing: -0.03em;
+}
+
+span.date {
+  background: #484;
+  display: block;
+  padding: 0.4em 0.6em 0.3em;
+  font-weight: bold;
+  color: white;
+  border-bottom: 3px solid #262;
+  float: left;
+}
+
+div.post {
+  margin-bottom: 2em;
+}
+
+.post h1 a {
+  text-decoration: none;
+  clear: left;
+  display: block;
+  color: black;
+  padding: 0.3em 0;
+  margin: 0 0 0.2em 0;
+  border-bottom: 1px dashed #dba;
+  font-weight: bold;
+}
+
+pre {
+  background: #f8f8f8;
+  border: 1px solid #E7E5DC;
+  border-width: 1px 0 4px 6px;
+  padding: 1em;
+  overflow: auto;
+  color: black;
+  line-height: 120%;
+  font-family: "Consolas","Courier New",Courier,mono;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+table.post-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.post-list a {
+  color: #262;
+  font-weight: bold;
+}
+
+table.post-list th {
+  text-align: left;
+}
+
+table.post-list td, table.post-list th {
+  padding: 0.5em 0.3em;
+  border-bottom: 1px solid #dba;
+}
+
+table.post-list tr:last-child td, table.post-list tr:last-child th {
+  border-bottom: 0;
+}

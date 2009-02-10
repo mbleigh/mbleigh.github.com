@@ -1,0 +1,165 @@
+---
+layout: post
+title: "SASS: The Better, More Powerful CSS"
+date: February 4, 2009
+---
+
+I am a huge fan of "SASS":http://haml.hamptoncatlin.com/docs/rdoc/classes/Sass.html (Syntactically Awesome Stylesheets) for styling Rails applications. I have been using it on all of my projects for quite a while now and have developed some great techniques that make it much easier to organize, write, and read stylesheets in an application.
+
+Unlike HAML, SASS retains most of the same "feel" when writing the code as vanilla CSS. It simply adds more power and better organizational tools, making it an easy choice as a go-to replacement. You can teach someone the basics of SASS in about 30 seconds: use two spaces to indent everything, put the colon before the declaration and no semicolon afterwards. In fact, I've even written regular expressions to convert CSS to SASS mechanically in some cases. It's easy to pick up and once you do you will start reaping real benefits.
+
+h3. The 20-Second "Get Up And Running"
+
+To use SASS, you must have the HAML gem installed on your Rails app. Add it to your <code>environment.rb</code>:
+
+<pre name='code' class='ruby'>config.gem 'haml', :version => '>= 2.0.6'</pre>
+
+Now you can create SASS stylesheets simply by making <code>.sass</code> files in a <code>public/stylesheets/sass</code> directory.
+
+h3. Basic Example: Building a Menu the SASS Way
+
+The best way to start explaining the power of SASS may be through one of the more common styling tasks one encounters: styling a menu. Here we'll assume a menu structure like this:
+
+<pre name='code' class='html'><ul id='menu'>
+  <li><a href='/'>Home</a></li>
+  <li><a href='/about'>About</a></li>
+  <li><a href='/services'>Services</a></li>
+  <li><a href='/contact'>Contact</a></li>
+</ul></pre>
+
+To style this menu in CSS, we might do something like this:
+
+<pre name='code' class='css'>#menu {
+  margin: 0;
+  list-style: none;
+}
+
+#menu li {
+  float: left;
+}
+
+#menu li a {
+  display: block;
+  float: left;
+  padding: 4px 8px;
+  text-decoration: none;
+  background: #2277aa;
+  color: white;
+}</pre>
+
+SASS allows you to use indentation to indicate hierarchy, saving much repetition and space. The same code in SASS looks like this:
+
+<pre name='code' class='css'>!menu_bg = #2277aa
+  
+#menu
+  :margin 0
+  :list-style none
+  li
+    :float left
+    a
+      :display block
+      :float left
+      :padding 4px 8px
+      :text-decoration none
+      :color white
+      :background = !menu_bg</pre>
+      
+Hierarchical selectors mean that if you indent something, the selector it falls under will automatically be prepended to it, so the two examples above generate the same output. You'll also notice <code>!menu_bg</code> in the SASS code. SASS allows you to declare constants that can be reused throughout the code, a very useful feature when dealing with colors.
+
+Now we have our basic setup for the menu, but let's handle some better cases. I want the color to change when I hover over the menu options and I want to highlight the current menu option (we'll assume that the <code><li></code> encapsulating the current menu item will have class 'current' when it is selected). Let's add these features first using CSS, then SASS. With CSS:
+
+<pre name='code' class='css'>#menu {
+  margin: 0;
+  list-style: none;
+}
+
+#menu li {
+  float: left;
+}
+
+#menu li a {
+  display: block;
+  float: left;
+  padding: 4px 8px;
+  text-decoration: none;
+  background: #2277aa;
+  color: white;
+}
+
+#menu li a:hover {
+  background: #116699;
+}
+
+/* Make sure the color doesn't change when the current option is hovered. */
+#menu li.current a, #menu li.current a:hover {
+  background: white;
+  color: black;
+}</pre>
+
+This isn't too bad, but our selectors keep getting longer and longer. Let's look at the same thing in SASS.
+
+<pre name='code' class='css'>#menu
+  :margin 0
+  :list-style none
+  li
+    :float left
+    a
+      :display block
+      :float left
+      :padding 4px 8px
+      :text-decoration none
+      :color white
+      :background = !menu_bg
+      &:hover
+        :background = !menu_bg - #111111
+    &.current
+      a, a:hover
+        :background white
+        :color black</pre>
+        
+The ampersand (<code>&</code>) in SASS is a shortcut to insert the entire parent selector at that point. By using <code>&.current</code> I am saying "the parent selector with a class of current." <code>&:hover</code> means "the parent selector when hovered." This makes it easy to write complex selectors in a compact, easy-to-read manner.
+
+Another great thing about SASS is it has built in CSS color math. Note where I declared <code>:background = !menu_bg - #111111</code>. That is equivalent to subtracting 1 from each of the values of the constant's color, which in this case yields <code>#116699</code>. This is great, because now I can change the color of the menu and the hover state will automatically change without me having to manually find it and recalculate it for a new color. Note that whenever you are using constants or performing calculations you need to add the equals sign to your declaration.
+
+h3. Getting organized with a master.sass
+
+Another way you can use SASS is to organize all of your CSS into a single file without having to worry about it in your view. I have recently started using this approach for a number of reasons:
+
+# It allows me to control stylesheet inclusion from within the stylesheets themselves, making the structure more readable.
+# I can define global colors that can then be used in *any* of the child stylesheets.
+# It's really easy!
+
+In a new project, I always create a <code>master.sass</code> that will look something like this:
+
+<pre name='code' class='css'>// Define app-specific colors first
+!green = #191
+!gray = #555
+
+// Now define globally applicable, general styles
+
+body
+  :font-family Arial, sans-serif
+  
+a
+  :color = !green
+  :text-decoration none
+  :font-weight bold
+
+// Now import all of your other SASS files, they will be
+// automatically included in the same generated CSS file
+// at compile time.
+
+@import menu.sass
+@import content.sass
+@import admin.sass
+@import users.sass</pre>
+
+Using this structure I have a modular, easily expandable collection of stylesheets with global color constants and basic styles. In addition, I can add this to my Rails application with the simplest of calls:
+
+<pre name='code' class='html'><%= stylesheet_link_tag 'master' %></pre>
+
+h3. Wrapping Up
+
+Hopefully this gives you a taste of the easy awesomeness that is possible with SASS. The greatest thing about the library is you don't lose touch with writing CSS because SASS *is* CSS, just with a few extras and shortcuts to make power-styling easier.
+
+*Update:* A commenter pointed out that I forgot the <code>@</code> before my import statements in the master.sass example, this has been fixed.
