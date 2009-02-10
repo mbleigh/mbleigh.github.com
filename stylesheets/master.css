@@ -106,6 +106,10 @@ div.post {
   margin-bottom: 2em;
 }
 
+.post h1 {
+  margin-top: 0.2em;
+}
+
 .post h1 a {
   text-decoration: none;
   clear: left;
@@ -163,4 +167,68 @@ div.related {
   font-size: 0.9em;
   padding: 0.5em;
   text-align: center;
+}
+
+.home_box {
+  float: left;
+}
+
+#content .home_box h2 {
+  background: #484;
+  padding: 0.3em 0.5em;
+  border-bottom: 3px solid #262;
+  margin-bottom: 0em;
+  color: white;
+}
+
+.home_box h2 a {
+  color: white;
+  margin: 0 0.2em;
+}
+
+#home_left {
+  width: 29em;
+}
+
+#home_right {
+  width: 16em;
+  margin-left: 1em;
+}
+
+.clearfix { clear: both;}
+
+#footer a {
+  color: #ecb;
+  font-weight: normal;
+}
+
+.home_box .post h1 a {
+  font-size: 0.7em;
+}
+
+.repo {
+  background: #eee;
+  padding: 0.7em 1em;
+  font-size: 0.8em;
+  margin: 1em 0;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  border-radius: 0.5em;
+}
+.repo h3 {
+  margin: 0 0 0.3em 0;
+}
+.repo h3 a {
+  font-weight: bold;
+  color: black;
+  letter-spacing: 0;
+}
+
+#github-projects.big .repo {
+  float: left;
+  width: 15.5em;
+  margin: 0.8em 0.7em;
+  display: inline-block;
+  float: none;
+  vertical-align: top;
 }
