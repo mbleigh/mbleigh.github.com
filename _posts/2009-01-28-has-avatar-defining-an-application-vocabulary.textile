@@ -1,6 +1,5 @@
 ---
 layout: post
-date: January 28, 2009
 title: "HasAvatar: Defining an Application Vocabulary"
 ---
 

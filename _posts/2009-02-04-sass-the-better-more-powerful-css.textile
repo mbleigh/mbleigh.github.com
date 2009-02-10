@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "SASS: The Better, More Powerful CSS"
-date: February 4, 2009
 ---
 
 I am a huge fan of "SASS":http://haml.hamptoncatlin.com/docs/rdoc/classes/Sass.html (Syntactically Awesome Stylesheets) for styling Rails applications. I have been using it on all of my projects for quite a while now and have developed some great techniques that make it much easier to organize, write, and read stylesheets in an application.

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: The Case For Web Applications
-date: February 2, 2009
 ---
 
 Neil McAllister recently wrote a piece on InfoWorld entitled "The Case Against Web Apps":http://weblog.infoworld.com/fatalexception/archives/2009/01/the_case_agains.html. In it, he outlines "Five reasons why Web-based development might not be the best choice for your enterprise." Obviously, as an employee of a web application services and products company, I disagree strongly with that opinion.

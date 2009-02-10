@@ -152,3 +152,7 @@ table.post-list td, table.post-list th {
 table.post-list tr:last-child td, table.post-list tr:last-child th {
   border-bottom: 0;
 }
+
+div.related {
+  margin-bottom: 2em;
+}

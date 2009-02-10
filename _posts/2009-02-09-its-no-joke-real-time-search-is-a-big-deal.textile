@@ -1,7 +1,6 @@
 ---
 layout: post
 title: It's No Joke - Real-Time Search is a Big Deal
-date: February 9, 2009
 ---
 
 I saw the article "'Google's First Real Threat: Twitter'":http://lewmoorman.com/googles-first-real-threat-twit pop up in my RSS readers today from a couple sources and didn't click through and read; I had already learned the power of "Twitter Search":http://search.twitter.com/ on multiple occasions (see "my previous discussion here":http://intridea.com/2009/1/22/twitter-search-plus-find-replies-inline-with-twitter-search?blog=company). But then something funny happened: I got an e-mail from "O'Reilly":http://www.oreilly.com/ saying that *all three* of my "RailsConf":http://www.railsconf.com/ proposals were accepted. Then I heard from a colleague here at Intridea that his talk was accepted.
