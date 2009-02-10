@@ -232,3 +232,8 @@ div.related {
   float: none;
   vertical-align: top;
 }
+
+.float-left { float: left; }
+.float-right { float: right; }
+
+a img { border: 0; }
