@@ -1,0 +1,10 @@
+---
+layout: post
+title: Hacking the Mid-End (Great Lakes Ruby Bash Edition)
+---
+
+I just finished giving my "Hacking the Mid-End" talk at the Great Lakes Ruby Bash. It was a bit longer format, so I updated the slides a bit and added a third example to the code. The slides are embedded below and the new code is available in "the GitHub Repository":http://github.com/intridea/talk-midend.
+
+<div style="width:425px;margin:0 auto 15px;" id="__ss_651205"><object style="margin:0px" width="425" height="355"><param name="movie" value="http://static.slideshare.net/swf/ssplayer2.swf?doc=midendslides-1223737810319305-8&stripped_title=hacking-the-midend-great-lakes-ruby-bash-edition-presentation" /><param name="allowFullScreen" value="true"/><param name="allowScriptAccess" value="always"/><embed src="http://static.slideshare.net/swf/ssplayer2.swf?doc=midendslides-1223737810319305-8&stripped_title=hacking-the-midend-great-lakes-ruby-bash-edition-presentation" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="355"></embed></object></div>
+
+I'm still at the conference, but I wanted to post up the slides and code immediately! Enjoy.

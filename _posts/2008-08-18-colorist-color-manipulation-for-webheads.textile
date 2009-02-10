@@ -1,0 +1,56 @@
+---
+layout: post
+title: "Colorist: Color Manipulation for Web Heads"
+---
+
+While writing color customization code for a recent project, I once again ran into the fact that the existing color gems for Ruby seem to be built for vastly different purposes. To that end, I decided to write a new library for dead-simple manipulation of colors with an emphasis on ease-of-use and being useful for web developers.
+
+h3. Installation
+
+<pre><code>gem install colorist</pre>
+
+h3. The Basics
+
+To instantiate a color in *Colorist*, you use a number of methods:
+
+<pre name="code" class="ruby">require 'colorist'
+include Colorist
+
+red = Color.new(0xff0000)
+red = 0xff0000.to_color
+red = "red".to_color
+red = "#f00".to_color
+red = Color.from_rgb(255,0,0)</pre>
+
+*Note:* I <code>include</code> Colorist in these examples, but there's no reason you can't leave it namespaced i.e. <code>Colorist::Color</code> instead.
+
+The idea is to give maximum flexibility without making it complicated. Once you've instantiated a color, you can figure out a few tidbits about it and perform some basic operations:
+
+<pre name="code" class="ruby">red.brightness # => 0.299
+red.r # => 255
+red.invert # => #<Color #00ffff>
+red.text_color # => #<Color #ffffff>
+red.to_s # => "#ff0000"
+red.to_s(:rgb) # => "1.000, 0.000, 0.000"</pre>
+
+h3. Operations
+
+The real value of Colorist comes in comparison and addition. You can use normal operators with the colors to add them together, subtract them, and compare them based on brightness. You can also do this with the string or numeric representations of colors:
+
+<pre name="code" class="ruby">red = 0xff0000.to_color
+green = 0x00ff00.to_color
+yellow = red + green
+yellow = "red".to_color + "green"
+yellow.to_s # => "#ffff00"
+red - 0.2 # => #<Color #cc0000></pre>
+
+Comparisons work off of the brightness of a given color. You can also calculate the contrast between two colors using the W3C's formula:
+
+<pre name="code" class="ruby">red = "red".to_color
+red > "black".to_color # => true
+red > "white".to_color # => false
+red.contrast_with("green".to_color) # => 0.500653594771242</pre>
+
+h3. Get Coloring!
+
+That's most of the basic functionality, for all of the details you can "view the RDoc on RubyForge":http://colorist.rubyforge.org/. The "source is available on GitHub":http://github.com/mbleigh/colorist and there is a "Lighthouse project":http://mbleigh.lighthouseapp.com/projects/15686-colorist for any bugs or feature requests. Enjoy!

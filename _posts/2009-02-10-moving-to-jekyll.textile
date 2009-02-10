@@ -1,0 +1,10 @@
+---
+layout: post
+title: Moving to Jekyll
+---
+
+As of today, my blog and site are hosted on "GitHub":http://github.com/mbleigh/mbleigh.github.com and served through "Jekyll":http://github.com/mojombo/jekyll. I switched to WordPress not too long ago but felt slightly disingenuous not using a Ruby-based solution. I had been using Jekyll for a couple of other projects ("Intridea University":http://www.intrideauniversity.com/ and my wedding website) and decided to go ahead and go all out.
+
+The look is mostly the same but I love that I can just pop into TextMate, work on a Textile file, push to GitHub and bam! I'm deployed. If you haven't used the "GitHub Pages":http://github.com/blog/272-github-pages feature of GitHub I suggest you give it a try. It's great!
+
+The only downside is that the RSS feed will be resetting all of the unique IDs so you may get your feed reader spammed if you're a subscriber. Also the comments are vanished once again (oops!) but I'm now explicitly setting Disqus permalinks so the next time I change my mind about how I want to run the site hopefully it will be better.

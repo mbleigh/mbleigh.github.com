@@ -1,0 +1,20 @@
+---
+layout: post
+title: Sort Your Files By Date
+---
+
+Others have talked about people being <strong>"searchers"</strong> or <strong>"filers"</strong> when it comes to e-mail. I think the same thing applies to hard drive organization, and I'm definitely a searcher. I don't have much in the way of organization in my folders short of basic overarching functional categories (Documents, Pictures, Rails, etc). Right now my Documents folder has 365 items in it and absolutely no canonical organization strategy. However, it rarely takes me more than a few seconds to find what I'm looking for at any given point. The secret? I just sort my files by date.
+
+<p style="text-align: center;"><img src="http://img.skitch.com/20081204-b989tgnyg2r6153w9h7u4gysd2.png" alt="" /></p>
+
+<p style="text-align: left;">I may be giving myself too much credit here (this may be completely obvious to lots of people), but most of the people I have talked to about it never even thought about the idea of defaulting to a file sort other than by name. So why does sorting by date help?</p>
+<p style="text-align: left;"></p>
+
+<ul>
+	<li>Most of the time, I'm looking for a file that I've worked with recently.</li>
+	<li>A good 50% of the time, I'm looking for the <strong>most recently modified file </strong>(uploading docs to e-mails, finding the app I just downloaded etc).</li>
+	<li>I'm a pretty good visual scanner, so I can usually spot what I'm looking for without much trouble in a list of files.</li>
+	<li>If all else fails, it's not like I can't go back to sorting by name.</li>
+</ul>
+
+<p>So this isn't exactly the life-altering stuff of epiphanies, but it's a little time saver that helps me be more productive throughout the day.</p>

@@ -1,0 +1,82 @@
+---
+layout: post
+title: "UberKit Update: UberForms to Ease Form Building"
+---
+
+Last week the Uberkit kicked off with some helpers to make your menu-building much easier. This week we're following it up with **UberForms**, a Form Builder that DRYs up your repetitive form stresses. Let's see how it works!
+
+h3. Building an Uber-er Form
+
+UberForms automatically generate all of the standard boilerplate HTML that goes around your forms. By wrapping everything up in an easily style-able package, it becomes a much easier business to make new forms as well as re-use form styling across projects. With the form markup taken care of, you can focus on the more important aspects of your UI building and keep your views deadly clean.
+
+While UberForms are available as a standard form builder (@Uberkit::Forms::Builder@), you may find it more useful in its helper form (automatically available when the UberKit plugin is loaded:
+
+<pre name="code" class="html"><% uberform_for :user do |f| %>
+  <%= f.text_field :login %>
+  <%= f.password_field :password %>
+  <%= f.submit "Submit"%>
+<% end %></pre>
+
+This will automatically be translated into some nice, CSS-ready HTML:
+
+<pre name="code" class="html"><form method="post" class="uberform" action="/users">
+  <div class="field_row">
+    <label for="user_login">Login:</label>
+    <input type="text" size="30" name="user[login]" id="user_login" class="text_field"/>
+    <br/>
+  </div>
+  <div class="field_row">
+    <label for="user_password">Password:</label>
+    <input type="password" size="30" name="user[password]" id="user_password" class="password_field"/>
+    <br/>
+  </div>
+  <button type="submit">Submit</button>
+</form></pre>
+
+You can also change the label, add a description or help text to a field by adding the relevant options:
+
+<pre name="code" class="html"><%= f.text_field :login, :label => "Username", 
+                         :help => "Only a-z and underscores.", 
+                         :description => "The name you will use to log in." %></pre>
+
+Becomes...
+
+<pre name="code" class="html"><div class="field_row">
+  <label for="user_login">Username:</label>
+  <input type="text" size="30" name="user[login]" label="Username" id="user_login" help="Only a-z and underscores." description="The name you will use to log in." class="text_field"/>
+  <span class="help">Only a-z and underscores.</span>
+  <span class="description">The name you will use to log in.</span>
+  <br/>
+</div></pre>
+
+Finally, you can create custom HTML inside an UberForm field by passing a block:
+
+<pre name="code" class="html"><% f.custom :label => "State", :for => "user_state" do |f| %>
+  <%= state_select :user, :state %>
+<% end %></pre>
+
+Becomes...
+
+<pre name="code" class="html"><div class="field_row">
+  <label for="user_state">State:</label>
+  <div class="pseudo_field">
+    <select id="user_state">...</select>
+  </div> 
+  <br/>
+</div></pre>
+
+Easy, right? That's all there is to it, now you can be UberForming to your heart's content
+
+h3. Installation
+
+To install the UberKit (which "includes more than just forms":http://www.intridea.com/tags/uberkit) you can do so either as a gem or a traditional plugin. As a gem, just add this to your environment.rb:
+
+<pre name="code" class="ruby">config.gem 'mbleigh-uberkit', :lib => 'uberkit', :source => 'http://gems.github.com'</pre>
+
+As a traditional Rails plugin:
+
+<pre><code>script/plugin install git://github.com/mbleigh/uberkit.git</pre>
+
+h3. The Future of the UberKit
+
+These two pieces are pretty helpful, but there's more coming for the UberKit. Stay tuned for more updates, including more hooks and ways to customize the UberKit to fit your needs as a developer.

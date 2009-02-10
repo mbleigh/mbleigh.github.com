@@ -1,0 +1,60 @@
+---
+layout: post
+title: "Fetches: Bringing Your ActionController Its Slippers"
+---
+
+There is a piece of code that shows up more than 80% of the controllers that I write, and it goes a little something like this:
+
+<pre name="code" class="ruby">class UsersController < ApplicationController
+  def user
+    @user ||= User.find(params[:id])
+  end
+  helper_method :user
+end</pre>
+
+A simple memoization method to allow me to easily grab the parameter-referred user in all of my actions. If I'm using nested routes, that means I can write two, maybe three of these methods into a controller. I'm basically using slight variations on the same code 20 different times in an application. Since we live in a world that loves to be DRY, I thought, "I can do better."
+
+h3. Fetches: Memoizing Your Parameter Record Retrieval
+
+Fetches is a simple extension to ActionController that lets you simply define those kinds of fetch methods on a one-line command. For the example above, I can rewrite it like so:
+
+<pre name="code" class="ruby">class UsersController < ApplicationController
+  fetches :user
+end</pre>
+
+That's pretty useful! Not only can I call the "@user@" method from the controller, but it's automatically helperized so that I can use the same call in my views. Of course, there are times when more advanced fetching is called for, say using a method other than @find@ or storing to a different variable name. Let's take a look at a slightly more complex example:
+
+<pre name="code" class="ruby"># assuming a route like /users/:user_id/articles/:id
+class ArticlesController < ApplicationController
+  fetches :user, :as => :author, :from => :user_id, :using => :find_by_login
+  fetches :article
+end</pre>
+
+Now if I were to call "@author@" in any of my controller actions, it would be equivalent to @User.find_by_login(params[:user_id])@. Similarly, calling "@article@" is equivalent to @Article.find(params[:id])@. The "from" option can also take a Proc in case your fetching is not simply a parameter key:
+
+<pre name="code" class="ruby">class UsersController < ApplicationController
+  fetches :user, :from => Proc.new{ |c| c.params[:user_id] || c.params[:id] }
+end</pre>
+
+The main advantages to *fetches* are brevity, clarity and DRYness. I've found that this method covers every use case for parameter-based fetching that I've needed, and as such provides a much simpler, more readable, and shorter way to fetch models for use in your controller and views.
+
+h3. Installation
+
+Fetches is available as a gem as well as in traditional plugin format. To install
+as a gem, add this to your environment.rb:
+
+<pre name="code" class="ruby">config.gem 'mbleigh-fetches', :source => 'http://gems.github.com', :lib => "fetches"</pre>
+  
+To install it as a traditional plugin:
+
+<pre><code>script/plugin install git://github.com/mbleigh/fetches.git</pre>
+
+h3. Resources
+
+The source is "available on GitHub":http://github.com/mbleigh/fetches, the "Acts As Community project":http://actsascommunity.com/projects/fetches is there for general discussion, and "the Lighthouse":http://mbleigh.lighthouseapp.com/projects/14793-fetches/overview is there for bugs and feature suggestions.
+
+*UPDATE:* A commenter requested that the plugin be able to handle creation of new records in addition to fetching existing records. I have added in the @:initialize@ option to do just this. Examples:
+
+<pre name="code" class="ruby">fetches :user, :initialize => true # initialize from params[:user]
+fetches :user, :initialize => :author # initialize from params[:author]
+fetches :user, :initialize => Proc.new{ |c| {:login => c.params[:login], :email => c.params[:email]} }</pre>

@@ -1,0 +1,64 @@
+---
+layout: post
+title: "UberKit: Building a Rails UI Swiss-Army Knife"
+---
+
+So many of components we build into our web applications have a grain of an extractable element, a standardization waiting to happen. Starting today, I am putting together a "Standard UI Kit" for all of the tools that help me build interfaces faster. Together, they are called the *UberKit*. This week, the first segment is coming: *UberMenus*.
+
+h3. UberMenu: Abstract Menu Generation
+
+Most people who build interfaces will build their menus with the same structure over and over. I finally took the time to abstract this out into a single helper that can pretty much serve all of my navigational needs. Here's how you use it in a view:
+
+<pre name="code" class="html"><% ubermenu do |m| %>
+  <% m.action 'Home', '/' %>
+  <% m.action 'Users', users_path %>
+  <% m.action 'Log Out', logout_path, :class => "special" %>
+<% end %></pre>
+
+Becomes this HTML (assuming you're at the document root):
+
+<pre name="code" class="html"><ul>
+  <li class="first current first_current"><a href="/">Home</a></li>
+  <li><a href="/users">Users</a></li>
+  <li class="special last"><a href="/logout">Log Out</a></li>
+</ul></pre>
+
+The @current@ class will automatically be set on whichever page responds to the built-in Rails helper @current_page?@ and the @action@ syntax behaves just like a @link_to@. If a given action has multiple classes, they will also be joined with underscores as an additional class for browsers that do not support multiple class declarations. But in addition to easily creating simple menus, you can also easily generate multi-level navigation menus:
+
+<pre name="code" class="html"><% ubermenu 'nav' do |m| %>
+  <% m.action 'Home', home_path %>
+  <% m.submenu 'Services', services_path do |s| %>
+    <% s.action 'Service A', service_path('a') %>
+    <% s.action 'Service B', service_path('b') %>
+  <% end %>
+<% end %></pre>
+
+Which will become this HTML:
+
+<pre><code><ul id='nav'>
+  <li class='first current first_current'><a href="/">Home</a></li>
+  <li class='last'><a href="/services">Services</a>
+    <ul>
+      <li><a href="/services/a">Service A</a></li>
+      <li><a href="/services/b">Service B</a></li>
+    </ul>
+  </li>
+</ul></pre>
+
+h3. Installation
+
+UberKit is available both as a gem and a traditional plugin. For the gem version, add this to your @environment.rb@:
+
+<pre name="code" class="ruby">config.gem 'mbleigh-uberkit', :source => "http://gems.github.com/", :lib => "uberkit"</pre>
+
+Or as a traditional plugin:
+
+<pre><code>script/plugin install git://github.com/mbleigh/uberkit.git</pre>
+
+h3. Future of the UberKit
+
+While *UberMenu* is a useful tool, the *UberKit* will continue to grow over time, so stay tuned for additions (next on the slate: *UberForm*). It may also grow to include some common styles and javascripts that can be used in conjunction with the helpers to provide an even easier track to a full-fledged UI.
+
+h3. Resources
+
+As always, the "source is on GitHub":http://github.com/mbleigh/uberkit and there is an "Acts As Community Profile":http://www.actsascommunity.com/projects/uberkit available as well. If you have any problems with it or would like to request new features, "enter them on the Lighthouse project":http://mbleigh.lighthouseapp.com/projects/13921-uberkit/overview.

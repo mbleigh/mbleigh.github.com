@@ -1,0 +1,24 @@
+---
+layout: post
+title: "Twitter Search Plus: Find Replies Inline With Twitter Search"
+---
+
+Last night after watching the "Lost":http://abc.go.com/primetime/lost/ premiere I had a question to which I was having a hard time finding the answer. The show had just ended and I wanted to know (tiny spoiler alert) who the woman Benjamin Linus was talking to at the end of the episode was. Google was no help (the episode had finished mere minutes before) so I turned to Twitter for some real-time searching.
+
+By searching for "lost old woman":http://search.twitter.com/search?q=lost+old+woman I was able to find plenty of other people asking the same *question* I had, but no one was giving the answer. I suspected that a reply to one of the tweets in question would have the answer so a few more minutes of manually searching for replies to the search result tweets finally yielded my answer. It also showed me how useful Twitter Search could be with a built-in way to find replies to the tweets. Rather than request the feature and wait until Twitter decides to implement it, I got my hands dirty with "Greasemonkey":http://www.greasespot.net/ and rolled my own.
+
+h3. Twitter Search Plus
+
+This userscript (which requires the "Greasemonkey Firefox Extension":https://addons.mozilla.org/en-US/firefox/addon/748 or equivalent userscript support in another browser) will automatically add a "Find Replies" link to the actions on Twitter search results and go out, find, and insert the replies to the user in question inline, just like the Show Conversation view. Here's a screenshot of it in action:
+
+<p align='center'>!http://img.skitch.com/20090122-rttyy3yd9i141m22j41frnqmn1.png!</p>
+
+This makes it really convenient to discover if a tweet you found while searching sparked any conversation. While I used it for entertainment, you could easily also find out who replied to a negative post about your brand, or if anyone else has already answered a question you were about to answer.
+
+h3. Installation and Limitations
+
+You can "install the script by following this link":http://gist.github.com/raw/50619/5b1607fd72e01d0e82e1f142c94666c8b8f82d4a/twitter_search_plus.user.js and see the source "right here":http://gist.github.com/50619 as a GitHub Gist. The script has also been "posted to UserScripts.org":http://userscripts.org/scripts/show/40970.
+
+Because there is no way to sort Twitter searches from oldest to newest, you will only see the 15 most recent replies to the user posted after the tweet in question. If the tweet is old or the user is extremely popular you might not get the replies you're looking for. I'm open to suggestions as to how to make this work better.
+
+Happy Twittering!

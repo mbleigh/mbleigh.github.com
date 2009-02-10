@@ -1,0 +1,14 @@
+---
+layout: post
+title: The Importance of External Downtime Resources
+---
+
+Back in the days when <a href="http://www.twitter.com">Twitter</a> was going down early and often, the biggest complaint by users often wasn't that Twitter was down but rather that they didn't know what was happening or when it would be fixed. Thus the <a href="http://status.twitter.com">Twitter Status Blog</a> was born, an externally hosted Tumblr that would be updated when they were having issues. <a href="http://github.com/">GitHub</a> did similarly after a recent bout of outages.
+
+Why are such resources so important? Because ultimately it's not the fact that a service you want to use is unavailable that's a problem so much as the <strong>feeling of helplessness</strong> of something you want/need to use being unavailable with no hint as to why or when it will be back.
+
+Case in point: today is Black Friday and Live.com is offering a 12 hour 40% cash back promotion with HP. I've been trying to get through for the past six hours with no success (the entire Live.com cashback section has been down for most of that time). This would be fine if I had any idea what the problem was, how I could ensure that I can get the cashback even with the site being down, or even a "sorry, you're out of luck." A call to Microsoft support simply directed me to an e-mail support form with no promise of resolution before the deal expires. Instead I'm a slave to my refresh button trying to get the deal during brief bouts of uptime.
+
+So if you have a product that people depend on, make sure you have some ways to let people know what's happening without depending on your app itself. <a href="http://present.ly/">Present.ly</a>, for instance, employs both a Twitter account that we monitor to quickly respond to any questions about service interruptions and a support site that is externally hosted and will continue to work even if Present.ly is down. It is only in the case of three independent services going down simultaneously that we will be out of luck.
+
+Ultimately all that matters is that your customers are happy. You can keep them happy even in times of outage by making sure that they know that you're working on it, you know about it and you care about it.
