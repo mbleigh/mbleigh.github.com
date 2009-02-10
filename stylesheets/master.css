@@ -17,7 +17,7 @@ a:visited {
 
 #wrapper {
   width: 50em;
-  margin: 2em auto;
+  margin: 2em auto 0;
   padding: 0;
   background: #fff;
   -moz-border-radius: 1.5em;
@@ -155,4 +155,12 @@ table.post-list tr:last-child td, table.post-list tr:last-child th {
 
 div.related {
   margin-bottom: 2em;
+}
+
+#footer {
+  margin-bottom: 2em;
+  color: #dba;
+  font-size: 0.9em;
+  padding: 0.5em;
+  text-align: center;
 }
