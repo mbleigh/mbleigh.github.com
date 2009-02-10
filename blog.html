@@ -1,11 +1,11 @@
 ---
 layout: master
 title: Blog
-full_posts: 4
+full_posts: 5
 ---
 
 {% for post in site.posts %}
-  {% if forloop.index <= page.full_posts %}
+  {% if forloop.index < page.full_posts %}
   <div class='post'>
     <span class='date'>{{post.date}}</span>
     <h1><a href='{{post.url}}'>{{post.title}}</a></h1>
@@ -13,7 +13,7 @@ full_posts: 4
     <a href='{{post.url}}#disqus_thread'>View Comments</a>
   </div>
   {% else %}
-    {% if forloop.index == page.full_posts + 1 %}
+    {% if forloop.index == page.full_posts %}
     <h3>Older Posts</h3>
     <table class='post-list'>
     {% endif %}

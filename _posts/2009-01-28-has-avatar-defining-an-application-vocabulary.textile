@@ -1,0 +1,49 @@
+---
+layout: post
+date: January 28, 2009
+title: "HasAvatar: Defining an Application Vocabulary"
+---
+
+One of my favorite techniques to DRY up a Rails application is to pull out common functionality into a simple "vocabularized method," by which I mean a simple descriptive method call that can be made from within your model or controller definition. For instance, in some applications I might have multiple models that have an "avatar." 
+
+These avatars all behave the same and should do the same things so I don't want to just repeat myself in the code. Instead I set up a file called <code>has_avatar.rb</code> inside my <code>config/initializers</code> folder. We use "Paperclip":http://thoughtbot.com/projects/paperclip for attachment handling at the moment, so I am going to create a wrapper for the specific Paperclip functionality I need for the avatars. Here's the code:
+
+<pre name="code" class="ruby">module HasAvatar
+  STYLES = { :large  => ["200x200#", :png],
+             :medium => ["100x100#", :png], 
+             :small  => ["70x70#", :png],
+             :little => ["50x50#", :png],
+             :tiny   => ["24x24#", :png] }
+             
+  def self.included(base)
+    base.extend ClassMethods
+  end
+  
+  module ClassMethods
+    def has_avatar
+      has_attached_file :avatar,
+                        PAPERCLIP_DEFAULTS.merge(
+                          :styles => HasAvatar::STYLES,
+                          :default_style => :medium,
+                          :default_url => "https://assets.presentlyapp.com/images/avatars/missing_:style.png",
+                          :path => ":account/avatars/:class/:login/:style.:extension"
+                        )
+    end
+  end
+end
+
+ActiveRecord::Base.send :include, HasAvatar</pre>
+
+We define a module, <code>HasAvatar</code> that will add a new class method called <code>has_avatar</code> into whatever class it is included. I defined a constant <code>STYLES</code> that lets me access the style hash outside of the attachment definition. A final piece of DRYness in the code is the <code>PAPERCLIP_DEFAULTS</code> constant which is just the default setup for all attachments (S3 Bucket, etc.) and I override the options I need for the avatars by <code>merge</code>-ing them in.
+
+<pre name="code" class="ruby">class User < ActiveRecord::Base
+  has_avatar
+end
+
+class Group < ActiveRecord::Base
+  has_avatar
+end</pre>
+
+Now both users and groups will have all of the expected Paperclip functionality without having to repeat ourselves. This is a simple example but it shows the general practices behind building your *application vocabulary*, which is just my made-up term for the abstract reusable components that are specific only to this application. Of course, if it's useful outside of the application, you might want to just go ahead and pluginize it!
+
+The usefulness of these abstracted methods also comes in through the inherently polymorphic nature of Ruby. Throughout my code I can write helpers, views and more to support avatars without caring whether the object in question is a <code>User</code> or a <code>Group</code>. Basically, the DRYer you start the DRYer you stay.
