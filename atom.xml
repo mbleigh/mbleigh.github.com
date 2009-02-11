@@ -5,8 +5,8 @@ layout: nil
 <feed xmlns="http://www.w3.org/2005/Atom">
  
  <title>Mister Bleigh</title>
- <link href="http://tom.preston-werner.com/atom.xml" rel="self"/>
- <link href="http://tom.preston-werner.com/"/>
+ <link href="http://mbleigh.github.com/atom.xml" rel="self"/>
+ <link href="http://www.mbleigh.com/"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
  <id>http://www.mbleigh.com/</id>
  <author>
@@ -17,9 +17,9 @@ layout: nil
  {% for post in site.posts %}
  <entry>
    <title>{{ post.title }}</title>
-   <link href="http://www.mbleigh.com{{ post.url }}"/>
+   <link href="http://mbleigh.github.com/{{ post.url }}"/>
    <updated>{{ post.date | date_to_xmlschema }}</updated>
-   <id>http://tom.preston-werner.com{{ post.id }}</id>
+   <id>http://mbleigh.com/{{ post.id }}</id>
    <content type="html">{{ post.content | xml_escape }}</content>
  </entry>
  {% endfor %}
