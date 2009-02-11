@@ -1,0 +1,141 @@
+---
+layout: post
+title: "SubdomainFu: A New Way To Tame The Subdomain"
+---
+
+An extremely common practice for Rails applications is to provide keyed
+access through subdomains (i.e. http://someaccount.awesomeapp.com/). However,
+there has never been a real unified convention for handling this functionality.
+"DHH's Account Location":http://github.com/rails/account_location/tree/master
+works for some circumstances but is more tailored for a "Basecamp":http://www.basecamphq.com/ domain model
+(i.e. the app is on a separate domain from all other functionality, so you
+can always expect a subdomain) than the more common usage of one domain only.
+
+SubdomainFu aims to provide a simple, generic toolset for dealing with subdomains
+in Rails applications. Rather than tie the functionality to something specific
+like an account, SubdomainFu simply provides a foundation upon which any
+subdomain-keyed system can easily be built.
+
+h3. Usage Fu
+
+SubdomainFu works by riding on top of the URL Rewriting engine provided with
+Rails. This way you can use it anywhere you normally generate URLs: through
+@url_for@, in named routes, and in @resources@-based routes. There's a small
+amount of configuration that is needed to get you running (though the defaults
+should work for most).
+
+To set it up, you can modify any of these settings (the defaults are shown):
+
+<pre name="code" class="ruby"># in environment.rb
+  
+# These are the sizes of the domain (i.e. 0 for localhost, 1 for something.com)
+# for each of your environments
+SubdomainFu.tld_sizes = { :development => 0,
+                          :test => 0,
+                          :production => 1 }
+
+# These are the subdomains that will be equivalent to no subdomain
+SubdomainFu.mirrors = ["www"]
+
+# This is the "preferred mirror" if you would rather show this subdomain
+# in the URL than no subdomain at all.
+SubdomainFu.preferred_mirror = "www"</pre>
+
+Now when you're in your application, you will have access to two useful
+features: a @current_subdomain@ method and the URL Rewriting helpers.
+The @current_subdomain@ method will give you the current subdomain or
+return nil if there is no subdomain or the current subdomain is a mirror:
+
+<pre name="code" class="ruby"># http://some_subdomain.myapp.com/
+current_subdomain # => "some_subdomain"
+
+# http://www.myapp.com/ or http://myapp.com/
+current_subdomain # => nil
+
+# http://some.subdomain.myapp.com
+current_subdomain # => "some.subdomain"</pre>
+
+The URL rewriting features of SubdomainFu come through a @:subdomain@ option
+passed to any URL generating method. Here are some examples (in these examples,
+the current page is considered to be 'http://intridea.com/'):
+
+<pre name="code" class="ruby">url_for(:controller => "my_controller", 
+  :action => "my_action", 
+  :subdomain => "awesome") # => http://awesome.intridea.com/my_controller/my_action
+  
+users_url(:subdomain => false)  # => http://intridea.com/users
+
+# The full URL will be generated if the subdomain is not the same as the
+# current subdomain, regardless of whether _path or _url is used.
+users_path(:subdomain => "fun") # => http://fun.intridea.com/users
+users_path(:subdomain => false) # => /users</pre>
+
+While this is just a simple set of tools, it can allow the easy creation
+of powerful subdomain-using tools. Note that the easiest way to locally
+test multiple subdomains on your app is to edit @/etc/hosts@ and add
+subdomains like so:
+
+<pre name="code">127.0.0.1	localhost subdomain1.localhost subdomain2.localhost www.localhost</pre>
+
+Adding an entry for each subdomain you want to use locally. Then you need
+to flush your local DNS cache to make sure your changes are picked up:
+
+<pre>sudo dscacheutil -flushcache</pre>
+
+h3. Installation
+
+SubdomainFu is available both as a traditional plugin and as a GemPlugin
+for Rails 2.1 and later. For a traditional plugin, install like so:
+
+<pre>script/plugin install git://github.com/mbleigh/subdomain-fu.git</pre>
+
+For a GemPlugin, add this dependency to your @environment.rb@:
+
+<pre>config.gem 'mbleigh-subdomain-fu', :source => "http://gems.github.com/", :lib => "subdomain-fu"</pre>
+
+h3. Implementing A Simple Account Key System
+
+Let's take this functionality and implement a simple account-key system based
+off of the subdomain. We'll start with some controller code (assuming that
+we have an Account model with a 'subdomain' field):
+
+<pre name="code" class="ruby">class ApplicationController < ActionController::Base
+  protected
+  
+  # Will either fetch the current account or return nil if none is found
+  def current_account
+    @account ||= Account.find_by_subdomain(current_subdomain)
+  end
+  # Make this method visible to views as well
+  helper_method :current_account
+  
+  # This is a before_filter we'll use in other controllers
+  def account_required
+    unless current_account
+      flash[:error] = "Could not find the account '#{current_subdomain}'"
+      redirect_to :controller => "site", :action => "home", :subdomain => false
+    end
+  end
+end</pre>
+
+That's really all we need for a basic setup, now let's say we have a
+@ProjectsController@ that you must specify an account to access:
+
+<pre name="code" class="ruby">class ProjectsController < ApplicationController
+  # Redirect users away if no subdomain is specified
+  before_filter :account_required
+end</pre>
+
+There's lots more you can do with the plugin, but this is a simple use case
+that everyone can relate to.
+
+h3. Resources and Plans
+
+A feature that I hoped would make it to the first release of SubdomainFu
+but is now a planned feature is subdomain-aware routing so that you can
+add conditional subdomain routes to your @routes.rb@ file. Keep an eye
+out for more on that in the future.
+
+In the meantime, the project will live at its home on "Acts As Community":http://www.actsascommunity.com/projects/subdomain-fu/ for intermittent
+updates, "is available on GitHub":http://github.com/mbleigh/subdomain-fu/ as always, and bugs/feature requests may
+be passed on through the "Lighthouse":http://mbleigh.lighthouseapp.com/projects/13148-subdomain-fu.

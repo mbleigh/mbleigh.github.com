@@ -1,0 +1,59 @@
+---
+layout: post
+title: Using RSpec and Autotest While Writing Rails Plugins
+---
+
+"RSpec":http://rspec.info is a great tool that has come to replace @Test::Unit@ for many "Rails":http://www.rubyonrails.com/ developers. "Autotest":http://www.zenspider.com/ZSS/Products/ZenTest/ makes it go even faster, and has become an indispensable part of my development environment. However, it has always been somewhat-to-extremely difficult to use RSpec when developing Rails plugins. In this post I will walk through step-by-step how to get RSpec and Autotest working with your plugin.
+
+This plugin is assuming that you are running Rails >= 2.1 and have already installed RSpec and RSpec::Rails as plugins in your Rails project like so:
+
+<pre name='code' class='bash'>script/plugin install git://github.com/dchelimsky/rspec.git
+script/plugin install git://github.com/dchelimsky/rspec-rails.git</pre>
+
+And also gotten RSpec up and running by calling @script/generate rspec@.
+
+h3. Generate It
+
+Luckily, I wasn't the first person who ever wanted to create a plugin that was tested with RSpec. "The Rspec Plugin Generator":http://github.com/pat-maddox/rspec-plugin-generator/tree/master will do most of the heavy lifting for us when we start out. Just install it like so:
+
+<pre name='code' class='bash'>script/plugin install git://github.com/pat-maddox/rspec-plugin-generator.git</pre>
+
+And you're ready to get started. I'm assuming here that this is a brand new plugin, if it's already in development you may need to run this in a fresh directory and then copy/paste files as needed to glue it together. Let's say I'm writing a plugin called @new_fu@. I can generate an RSpec-ready plugin simply by calling:
+
+<pre name='code' class='bash'>script/generate rspec_plugin new_fu</pre>
+
+This will generate the standard plugin structure as well as some extra files:
+
+<pre name='code' class='bash'>create  vendor/plugins/new_fu/spec
+create  vendor/plugins/new_fu/spec/spec_helper.rb
+create  vendor/plugins/new_fu/spec/new_fu_spec.rb</pre>
+
+You can take a look at these to see how they work, but pretty simply they hook your plugin up so that it can be run with @rake spec:plugins@. Let's add a simple example to our @new_fu_spec.rb@ file:
+
+<pre name='code' class='ruby'>require File.dirname(__FILE__) + '/spec_helper'
+
+describe "NewFu" do
+  it "should have a pending spec"
+end</pre>
+
+Now if you run @rake spec:plugins@ you should see one pending spec. Congratulations, your plugin is now running on RSpec!
+
+h3. Autotest Like a Champ
+
+Ok, so now we're up and running with RSpec on our plugin. That's great, but if you have several plugins in the same Rails app that all have specs, it starts to get messy when you run that @rake spec:plugins@. Not to mention how long it takes between runs! We need to get an autotest setup like we have for our main Rails app!
+
+I struggled with getting this to work for a long time, so thanks to "this post on Rails Symphonies":http://rails.aizatto.com/2007/11/19/autotest-ing-your-rails-plugin/ for finally pointing me in the right direction. First we need to create an @autotest/discover.rb@ file in our plugin's @lib@ directory. In that file, put this code:
+
+<pre name="code" class="ruby">$:.push(File.join(File.dirname(__FILE__), %w[.. .. rspec]))  
+   
+Autotest.add_discovery do  
+  "rspec" 
+end</pre>
+
+This gets us almost exactly where we want to be. However, the first time I ran it I had two problems: some specs that I had written were strangely failing, and it wasn't in color or following the rest of my @spec.opts@ preferences from my main app!
+
+To remedy this, we need a @spec.opts@ in the @spec@ directory of the plugin. You can either copy and paste it in from your Rails app (my recommendation if you are publishing your plugin) or you can just create a softlink back to it:
+
+<pre name='code' class='bash'>ln -s ../../../../spec/spec.opts spec.opts</pre>
+
+That's it! Now if you run @autotest@ you should be running all of the specs for your plugin just as you would if you were running them for your app. Note that this doesn't hook in to your app's @autotest@, which may be desirable or undesirable to your specific needs.

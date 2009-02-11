@@ -1,0 +1,139 @@
+---
+layout: post
+title: What the World Needs Now is CSS3
+---
+
+The discussion around HTML 5 has been heating up recently, with people advocating to get it finalized and implemented sooner rather than later (and lamenting the ulterior motives of major browser vendors in lobbying for specs). I simply can't get passionate about this fight, much as I've tried. While some of the things that HTML 5 offers will certainly be a boon for web developers, by and large the issues that it addresses (in terms of interactivity) are surmountable simply by using the excellent Javascript libraries we've all become dependent upon. The next version of the CSS specification, however, is an entirely different story.
+
+I recently started a new project and as an experiment decided to play with using the non-final <code>border-radius</code> implementations available in Firefox and Safari. After using it for about 15 minutes, I decided that I would simply forgo rounded corners in the interface for Internet Explorer. After using it for three days, I am wondering why every designer and developer on the internet isn't simultaneously demanding immediate forced adoption of CSS3.
+
+h3. Styling is Fun Again
+
+Our interfaces and style tastes have grown much more complex as the web has grown up, but the tools we use to implement those styles haven't been keeping up. It shouldn't feel like a trip to the dentist just to get a box to have some rounded edges. It shouldn't be a nightmare to try to use translucent pngs for overlays (admittedly this has nothing to do with CSS3 and everything to do with IE6, the browser that won't die no matter how much we pray). 
+
+I can tell you that styling on the edge doesn't just feel good, it feels **amazing**. I'm able to implement in a few seconds what I might otherwise spend three hours styling while polluting my markup with hack tags.
+
+h3. Rounded Corners: Nemesis of Designers Everywhere
+
+There is no good way to make rounded corners. The javascript libraries are buggy, images are limited in practicality, and getting it just right in all browsers is downright painful and usually ends up with markup something like this (and a whole mess of CSS to go with):
+
+<pre name='code' class='html'><div class='rounded'>
+  <div class='tl'>
+    <div class='tr'>
+      <div class='bl'>
+        <div class='br'>
+          So much for semantics...
+        </div>
+      </div>
+    </div>
+  </div>
+</div></pre>
+
+In the CSS3 specification, the same effect is achievable like so:
+
+<pre name='code' class='css'>.rounded { border-radius: 10px; }</pre>
+
+But it's not just a convenient way to shortcut the hacks to which we've all grown accustomed, it opens up entirely new possibilities for design that would simply not be worth the effort to hack without it.
+
+h3. Lead By Example
+
+Let me explain what I mean by example. Form design has always been one of the trickiest parts of web design, what can we do with a little CSS 3 magic? Let's say we have a simple form that takes a person's name:
+
+<pre name="code" class="html"><form id='sample_form'>
+  <label for="name">First Name:</label>
+  <input type='text' name="name" id="name"/><br/>
+  
+  <label for="name">Last Name:</label>
+  <input type='text' name="name" id="name"/><br/>
+  
+  <button type="submit">Submit</button>
+</form></pre>
+
+Simple enough, this turns out looking something like this:
+
+<div align="center">!http://intridea.com/assets/2008/7/2/form-unstyled.png!</div>
+
+Now we can add some standard CSS to make it look a little more acceptable:
+
+<pre name="code" class="css">label {
+  display: block;
+  float: left;
+  width: 100px;
+  font-weight: bold;
+  padding: 4px 5px;
+  font-family: Verdana, sans-serif;
+  font-size: 12px;
+  margin-bottom: 5px;
+  clear: both;
+  text-align: right;
+}
+
+input {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+button {
+  margin-left: 115px;
+  margin-top: 10px;
+}</pre>
+
+And our result is a perfectly usable form:
+
+<div align='center'>!http://intridea.com/assets/2008/7/2/form-css2.png!</div>
+
+But what if we use just a taste of what CSS3 has to offer? We can make a form that looks completely unique without using a single image:
+
+<pre name="code" class="css">label {
+  display: block;
+  float: left;
+  width: 100px;
+  padding: 4px 5px;
+  border: 2px solid #037;
+  background: #06a;
+  color: #fff;
+  font-family: Verdana, sans-serif; 
+  font-size: 12px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  clear: both;
+  text-align: right;
+  border-radius: 13px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+input {
+  background: #fff;
+  border: 2px solid #8ac;
+  border-left: 0px;
+  padding: 5px 5px;
+  margin-top: 0;
+  margin-bottom: 5px;
+  margin-left: 0;
+  border-radius: 5px;
+  top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+button {
+  background: #080;
+  color: #fff;
+  border: 2px solid #060;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 112px;
+  padding: 5px 10px;
+  border-radius: 13px;
+}</pre>
+
+It's a hefty chunk of code, but anyone experienced in writing CSS can knock something like that out in about five minutes. The result is well worth it:
+
+<div align='center'>!http://intridea.com/assets/2008/7/2/form-css3.png!</div>
+
+This kind of styling opens up with the application of *just a single new attribute* from the "CSS3 draft specifications":http://www.w3.org/Style/CSS/current-work. Designers have had to hack, cheat, and wrangle every semi-complex interface that has been developed in the last 5 years thanks to the limitations of CSS (and more specifically the limitations of Internet Explorer), but it doesn't have to stay that way forever.
+
+h3. State of the Browser
+
+The complete CSS3 spec is not coming to a browser near you any time soon (more accurately not *all* browsers), and that's a real shame. It brings to the table powerful new tools that can really enable the kind of semantic markup that we all wish was possible with today's browsers. Rounded corners are just the "tip of the iceberg"; once CSS3 sees widespread adoption, interface design will take a leap forward unlike any it has seen before.
+
+In the meantime, keep an eye out on the "WebKit Nightlies":http://nightly.webkit.org/ for cutting edge CSS implementations (just added: "CSS Variables":http://disruptive-innovations.com/zoo/cssvariables/). Five years from now we'll look at the troubles we used to have and laugh. Until then, a person can dream...

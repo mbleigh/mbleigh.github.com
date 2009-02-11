@@ -1,0 +1,52 @@
+---
+layout: post
+title: "GemPlugins: A Brief Introduction to the Future of Rails Plugins"
+---
+
+The new "Gem Dependencies":http://ryandaigle.com/articles/2008/4/1/what-s-new-in-edge-rails-gem-dependencies of Rails 2.1 give developers an easier-than-ever ability to keep track of and maintain the various library dependencies inherent with any project. However, a much-overlooked additional feature of the Gem Dependencies is the ability to package traditional Rails plugins as a gem and have them hooked in properly. This article is designed as an introduction to how to write and use plugins as gems in Rails projects.
+
+h3. The Basics
+
+The basic method by which this is achievable is that any plugin included through a <code>config.gem</code> command will automatically have the gem-packed file <code>rails/init.rb</code> run upon Rails's initialization. All it takes is a little bit of effort, and any Rails plugin can be packaged as a gem and easily depended upon through gem dependencies.
+
+You may be wondering why this is a "big deal." Plugins are already dead simple to install in Rails (and you can even <code>script/plugin install</code> straight from Git now!), why do we need GemPlugins? It's simple, really: "RubyGems":http://www.rubygems.org/ are a rock-solid established way of easily distributing *versioned* reusable bits of code. Using gems for plugins allows for a greater standardization of the way in which plugins are maintained and distributed, as well as a simple path for version-locking to ensure compatibility with legacy code etc.
+
+Another reason that GemPlugins are important is that they provide a level of abstraction from Rails: by releasing a gem <code>rails/init.rb</code> you could also use the same exact code to release a "Merb":http://www.merbivore.com/ plugin or any other framework that supports gemified add-ons. I think you will begin to see a number of cross-framework plugins be developed as Rails gets some company and shares alike.
+
+h3. Using a GemPlugin
+
+First, let's go through the process required to use an existing gem plugin. I'm going to be using my "Acts As Taggable On":http://intridea.com/2008/6/9/acts-as-taggable-on-grows-up plugin as an example throughout because I just recently went through the process of making it available as a gem.
+
+First, you will need to include the dependency in your <code>environment.rb</code> file. I'm assuming here that most plugins are going to be hosted on "GitHub":http://www.github.com/, but the same should be true for any gem source.
+
+<pre name="code" class="ruby"># in environment.rb
+  
+config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"</pre>
+
+This is the standard usage of gem dependencies, and for more info on this you can "see Ryan Daigle's post":http://ryandaigle.com/articles/2008/4/1/what-s-new-in-edge-rails-gem-dependencies or "watch the RailsCast on the subject":http://railscasts.com/episodes/110. Now assuming that you don't already have the gem in question installed, it's simple to grab it:
+
+<pre name="code" class="ruby">rake gems:install</pre>
+
+This will automatically install any gem dependencies in your project, and will tell you what's happening the same as if you had run <code>gem install</code> from the command line.
+
+That's it! Once you have successfully installed the necessary gem, you can simply start up your Rails server and the plugin will be loaded and initialized as though it were living in your <code>vendor/plugins</code> directory.
+
+Now that you know how to **use** a GemPlugin, I'll show you how you can take an existing plugin and gemify it quickly and painlessly.
+
+h3. Making a GemPlugin
+
+Let's say I have a plugin called <code>awesome_fu</code> that lives on GitHub at <code>mbleigh/awesome-fu</code>. I've already released this plugin, it works great, and now I want to make it compatible with GemPlugins.
+
+First, let's create a "gemspec":http://www.rubygems.org/read/chapter/20 called <code>awesome-fu.gemspec</code> in line with the requirements for the "GitHub Gem Repository":http://gems.github.com. In order to make the file list, I usually find it's easiest to "<code>find **</code>" in the plugin directory, then copy it into "TextMate":http://www.macromates.com/, make the modifications I need for manifest (using a regular expression to quote each of the files), and saving it in the spec. If you have only a few files in your plugin, it may be easier just to add them by hand.
+
+Next we need to add <code>rails/init.rb</code>. This is a little bit troublesome, because we still want our plugin to work if installed through the traditional method, so we also need <code>init.rb</code> to run the same code ("this is automatically fine in edge Rails":http://rails.lighthouseapp.com/projects/8994/tickets/272-make-plugins-also-initialize-form-rails-init-rb#ticket-272-1). What I did for my plugin is copy all of my <code>init.rb</code> code into <code>rails/init.rb</code> and then change <code>init.rb</code> to the following:
+
+<pre name="code" class="ruby">require File.dirname(__FILE__) + "/rails/init"</pre>
+
+Now they both run the same code without any kind of replication, great! This means that now I have set up my plugin to work equally as a GemPlugin or a traditional plugin with just a couple minutes of work.
+
+All that's left to do is switch on the RubyGem setting for my GitHub project, update the README, and push! Now anyone will be able to easily require the plugin as a gem dependency and you will get all of the accolades associated with releasing your plugin the "new and hip" way.
+
+h3. Caveat Coder
+
+The one problem with GemPlugins that I have run into is that if you unpack your gems using "<code>rake gems:unpack</code>" the <code>rails/init.rb</code> file is not run on initialization. "This is a known issue":http://rails.lighthouseapp.com/projects/8994/tickets/122-rails-init-rb-doesn-t-get-called-for-unpacked-gems that is supposed (?) to be resolved but I have still experienced this problem in my experiments. Hopefully this issue will be fully resolved in edge Rails soon and the glorious future of GemPlugins can begin.
