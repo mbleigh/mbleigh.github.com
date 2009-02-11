@@ -1,0 +1,10 @@
+---
+layout: post
+title: Open Source Is Amazing
+---
+
+Yesterday, I pushed by new, Jekyll-powered blog out to GitHub. That was 24 hours ago. Today, I get a note from Scott Chacon (GitHub guy and overall git guru) saying he liked my template and decided to use it for his site.
+
+That's what's so great about GitHub's open source community: I shared it with no publicity or fanfare on my GitHub account and someone else found it useful and implemented it for their own site. I guess maybe some people don't like others copying their site, I think it's pretty great!
+
+So if you like this little blog and open-source project display page, "fork away":http://github.com/mbleigh/mbleigh.github.com/! All that I would like in return is for you to let me know that you're using it so I can check out your site. 
