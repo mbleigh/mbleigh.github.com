@@ -129,7 +129,7 @@ pre {
   overflow: auto;
   color: black;
   line-height: 120%;
-  font-family: "Consolas","Courier New",Courier,mono;
+  font-family: "Consolas","Courier New",Courier,monospace;
   font-size: 12px;
   letter-spacing: 0;
 }
@@ -200,6 +200,12 @@ div.related {
 #footer a {
   color: #ecb;
   font-weight: normal;
+}
+
+code {
+  background: #fff5dd;
+  font-size: 14px;
+  font-family: "Consolas","Courier New",Courier,monospace;
 }
 
 .home_box .post h1 a {

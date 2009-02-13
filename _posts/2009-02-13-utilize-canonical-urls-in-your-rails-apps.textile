@@ -1,0 +1,27 @@
+---
+layout: post
+title: Utilize Canonical URLs in Your Rails Apps
+---
+
+Today came the announcement that all of the major search engines are "going to support a 'canonical' URL hint":http://www.seomoz.org/blog/canonical-url-tag-the-most-important-advancement-in-seo-practices-since-sitemaps that will allow site owners to specify a single URL for content that may be replicated across many URLs (such as for categories etc.).
+
+To make use of this in Rails applications, I've written a plugin that allows you to easily specify canonical URLs for your content. To install it as a gem, just add this to your @environment.rb@:
+
+<pre name='code' class='ruby'>config.gem 'mbleigh-canonical-url', :source => 'http://gems.github.com', :lib => 'canonical_url'</pre>
+
+Using it is extremely simple; just add this to the @<head>@ section of your layout:
+
+<pre name='code' class='html'><%= canonical_link_tag %></pre>
+
+And in your controllers, any time you want to specify a canonical URL you can do so like this:
+
+<pre name='code' class='ruby'>class BlogController < ApplicationController
+  def show
+    @post = find_post # assume this is a standard blog post type record
+    canonical_url blog_post_path(post.year, post.month, post.day, post.slug)
+  end
+end</pre>
+
+Now any time the @show@ action is run, no matter how the routing came to be there, a single canonical URL will be shown in the header. If no canonical URL is specified in the controller (or through the @canonical_link_tag@ helper directly) the helper will not output anything, making it completely harmless to add to any application.
+
+The source for the plugin is "available on GitHub":http://github.com/mbleigh/canonical-url. So go forth and canonize your applications!
