@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Quick Tip: Rails URL Validation"
+---
+
+After doing a quick "Google Search":http://www.google.com/search?q=rails+url+validation&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a I realized that everyone might not know about a great way to do URL validation in Rails. The secret is a little-known method of the <code>URI</code> class, <code>regexp</code>. It lets you generate a regular expression for matching URLs based on an array of accepted protocols. What's even better, it can be plugged directly into Rails's <code>validates_format_of</code>. It's this easy:
+
+<pre name='code' class='ruby'>class User
+  validates_format_of :website, :with => URI::regexp(%w(http https))
+end</pre>
+
+This will match anything that <code>URI.parse</code> will recognize, meaning that it's a pretty accurate and powerful URL matcher. URL validation was one of those little annoyances in writing Rails models because it really seemed like there should be an easier way. I found mine, so I thought I'd share it!
