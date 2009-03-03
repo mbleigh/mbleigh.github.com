@@ -1,0 +1,24 @@
+---
+title: The Case For GitHub Canonization
+layout: post
+---
+
+I was going through the fork queue of one of my projects on GitHub today when it really struck me how useful it would be to have canonical projects in GitHub. Now, I know that to some extent canonization (by which I mean an 'official' version of a given project that would be accessible at, say, http://github.com/project-name instead of http://github.com/user-name/project-name) goes against the 'free forking spirit' of Git and GitHub, but I believe that the benefits would outweigh the potential risks.
+
+If GitHub provided a canonization process, I would imagine it would work (something) like this:
+
+* A user creates a project. Until otherwise noted, it lives at http://github.com/user-name/project-name
+* A user chooses a button somewhere in admin that says "canonize." Click!
+* GitHub examines the project and checks to see if the canonical name already exists and also *if the project is the 'root' of the most forks*.
+* If there is no canonical conflict (no project exists and the specified project is the root of most forks), canonical status is granted.
+* If there is a canonical conflict (a non-root fork, for instance), the canonization is marked as 'pending' and a message is sent to the root fork asking if the fork can canonize.
+
+Now this isn't dead simple and it could be abused ('canon' squatting for projects etc.) which I imagine is most of the reason GitHub is hesitant to implement it. It might require some kind of administrative approval process to prevent such abuse, which is both more work and can cause conflict. The benefits of such a system, however, are many.
+
+Canon allows for the GitHub gem server to provide the 'official' gem for a project without all of the messy remembering of user names. This would obviate the need for RubyForge entirely, something that I suspect may get "Magnus Holm":http://judofyr.net/ to argue with me (again). GitHub is where open-source development in Ruby is happening now, it may as well be where we get our gems. If I can bump my gemspec and that's all I have to do to distribute the latest official version of my gem, that saves me time and effort.
+
+Canon also allows for projects such as Jamis Buck's Capistrano and FuzzyFinderTextMate to live on after their creators have officially given up on them. If I have a project that I don't have time to maintain, I can 'pass the torch' to another fork of the project which would then become canon.
+
+Finally, canon makes it easier for people to figure out which fork of a project to contribute pull requests. This is a rarer case, but there are some times when it can be difficult to tell who the real maintainer of a project might be. Canonization makes this easy.
+
+None of this has to conflict with GitHub's existing system: you should still be able to pull projects and install gems from the user-name/project-name nomenclature as before. Canonization would simply add a new layer of usefulness to the already crazy-useful site. So how about it, GitHubbers?
