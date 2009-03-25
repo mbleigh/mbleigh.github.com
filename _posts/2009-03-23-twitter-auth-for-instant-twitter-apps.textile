@@ -1,0 +1,126 @@
+---
+layout: post
+title: "TwitterAuth: For Near-Instant Twitter Apps"
+---
+
+<div style='float: right; margin-left: 10px; margin-bottom: 10px'><img src='http://img.skitch.com/20090320-x339jfeehaeftua1sysax3wsrj.jpg' alt='TwitterAuth'/></div>
+
+The public beta of Twitter OAuth support "has been released":http://news.cnet.com/8301-17939_109-10197898-2.html?part=rss&tag=feed&subj=Webware and I'm excited to introduce a new library that I've been working on called *TwitterAuth*. TwitterAuth is a Rails plugin that provides a full external authentication stack for Rails applications utilizing Twitter. Think of it as "Twitter Connect" for Rails, letting you create an application that may be logged into using only Twitter credentials.
+
+TwitterAuth supports both *OAuth* and *HTTP Basic* (though OAuth is certainly the recommended strategy) giving you maximum flexibility for building the application. Without further ado, let's get into the installation and usage of TwitterAuth!
+
+h3. Installation
+
+TwitterAuth is available as a GemPlugin, so the preferred way to install it is simply to add it as a dependency in your <code>config/environment.rb</code>:
+
+<pre name='code' class='ruby'>config.gem 'twitter-auth', :lib => 'twitter_auth'</pre>
+
+You can also choose to install it as a traditional Rails plugin:
+
+<pre name='code'>script/plugin install git://github.com/mbleigh/twitter-auth.git</pre>
+
+Once you've installed it, you're ready to create a new application using TwitterAuth!
+
+h3. The Low-Down
+
+TwitterAuth uses Rails 2.3 Engine support to completely encapsulate the login process within itself. All you need to do is run a generator to make all of the support files necessary in your application. Run it with the <code>--basic</code> option if you want to use HTTP Basic, otherwise it will default to OAuth.
+
+<pre>script/generate twitter_auth</pre>
+
+This generates a User class, a migration, and <code>twitter_auth.yml</code>. You will need to edit <code>twitter_auth.yml</code> to match the settings of your application, such as providing the OAuth client token and secret.
+
+Once you've migrated, that's it! You are up and running with Twitter authentication; just point users at <code>/login</code> to start the process (login and registration are handled in a single step). For more detailed usage information including how to access the Twitter API through TwitterAuth, take a look at "the README file":http://github.com/mbleigh/twitter-auth.
+
+The source for TwitterAuth is "available on GitHub":http://github.com/mbleigh/twitter-auth. I have also created a "Lighthouse Project":http://mbleigh.lighthouseapp.com/projects/27783-twitterauth for the reporting of any bugs you may come across. There is also a "basic homepage":http://mbleigh.com/twitter-auth/ that will be listing who's using TwitterAuth.
+
+If you're pretty familiar with Rails authentication systems (particularly "Restful Authentication":http://github.com/technoweenie/restful-authentication), this is probably all you need to know to get started. Go forth and make awesome apps! If not, I've written a quick run-through of the whole process to make it easy for *anyone* to get started with Twitter apps.
+
+h3. A Quick Run-Through
+
+I think the best way to show what TwitterAuth is capable of is just to show how quickly you can build a simple Twitter application with it. To that end, let's build a simple way to look at your friends' timeline in an old-school text-based way (note, this is a totally useless application but works well for a quick demo). First we need to generate the app:
+
+<pre>rails texty-twitter</pre>
+
+Next we want to install TwitterAuth on the application, so we'll add this to our <code>config/environment.rb</code>:
+
+<pre name='code' class='ruby'>config.gem 'twitter-auth', :lib => 'twitter_auth'</pre>
+
+Once we have hooked TwitterAuth into the application, we will want to run the generator to build the support files we need:
+
+<pre>script/generate twitter_auth --oauth</pre>
+
+Before I start on application logic I always lay out a basic HTML layout. Here it is for this application (in <code>app/views/layouts/master.html.erb</code>):
+
+<pre name='code' class='html'><html>
+  <head>
+    <style type='text/css'>
+      ul.tweets {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      ul.tweets li {
+        font-family: monospace;
+        font-size: 14px;
+        padding: 4px 8px;
+      }
+
+      ul.tweets li a {
+        color: #fa0;
+        font-weight: bold;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html></pre>
+
+The next step is to edit <code>config/twitter_auth.yml</code> to reflect our OAuth client key and secret (to register your application log in to Twitter and visit "http://twitter.com/oauth_clients":http://twitter.com/oauth_clients). Other than the client key and secret, the defaults are fine for our purposes. We've now set up a basic TwitterAuth application; that's really all there is to it. So now let's make it a *working* Twitter application. First let's generate a controller:
+
+<pre>script/generate controller timeline</pre>
+
+This will just be a one-action controller that will render out the main timeline for the logged in user in an text-based manner. Here's the contents of the controller:
+
+<pre name='code' class='ruby'>class TimelineController < ApplicationController
+  # this requires us to log in through Twitter before accessing any actions here
+  before_filter :login_required
+
+  def index  
+    @tweets = current_user.twitter.get('/statuses/friends_timeline')
+  end
+end</pre>
+
+In this action, <code>current_user</code> is the logged in user, and the <code>twitter</code> method provides a simple wrapper around the "Twitter REST API":http://apiwiki.twitter.com/REST+API+Documentation that will automatically parse JSON API requests into Ruby hashes for you to use in your application. So <code>current_user.twitter.get('/statuses/friends_timeline')</code> will grab the latest statuses from your friends' timeline (the main timeline you see when you're logged in to Twitter) as an array of hashes. Now let's display the tweets by creating <code>app/views/timeline/index.html.erb</code>:
+
+<pre name='code' class='html'><ul class='tweets'>
+  <% for tweet in @tweets %>
+    <li><%= link_to tweet['user']['screen_name'] + ':', 'http://twitter.com/' + tweet['user']['screen_name'], :target => '_blank' %> <%= tweet['text'] %></li>
+  <% end %>
+</ul></pre>
+
+This simply goes through each of the tweets we pulled down and adds a list item with a link to the author of the tweet and the content of the tweet. The structure of the hashes are identical to their description in the "Return Elements section of the Twitter API wiki":http://apiwiki.twitter.com/REST+API+Documentation#ReturnElements.
+
+Finally, we need to add some routing to tie everything together. Make the <code>config/routes.rb</code> look like this:
+
+<pre name='code' class='ruby'>ActionController::Routing::Routes.draw do |map|
+  map.root :controller => 'stream', :action => 'index'
+end</pre>
+
+And we're done! Fire up your server with <code>script/server</code> and go to <code>http://localhost:3000/</code>. If everything is working properly, it should redirect you to Twitter with a screen like this:
+
+p{text-align: center;}. !http://img.skitch.com/20090320-qwxf5rnn4qs75a7xbwccsppgam.jpg!
+
+Once you click through and hit allow, it should then take you back and display your tweet stream in an old-school text interface, something like this:
+
+p{text-align: center;}. !http://img.skitch.com/20090321-nefkuh6xdq3jx8wejg8a11hsew.jpg!
+
+It's a simple and useless application, but in about 10-15 minutes you've created a fully-functioning Rails application that accesses the Twitter API and stores user information. Not bad!
+
+h3. See You At RailsConf!
+
+<a href='http://en.oreilly.com/rails2009/public/schedule/detail/8517' target='_blank'><img src="http://assets.en.oreilly.com/1/event/24/rails2009_banner_speaking_210x60.jpg" width="210" height="60"  border="0"  alt="RailsConf 2009" title="RailsConf 2009" /></a>
+
+TwitterAuth is a big part of what I will be talking about at RailsConf in my session "'Twitter on Rails'":http://en.oreilly.com/rails2009/public/schedule/detail/8517. if you're interested in the plugin and attending RailsConf in May I hope you'll stop by; I'll be building an entire Twitter application from scratch during the 45 minute presentation. Also, feel free to "follow me on Twitter":http://twitter.com/mbleigh if you're so inclined.

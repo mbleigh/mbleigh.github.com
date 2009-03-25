@@ -1,0 +1,121 @@
+---
+layout: post
+title: Using Git Submodules for Shared Application Components
+---
+
+In some cases you may have the need to run multiple Rails applications with shared functionality. While Rails 3 promises to bring "mounting apps in apps" and the ability to make the whole process simple, for now we're stuck in the real world. However, it is possible to share components. This post will walk you through how to set up shared  components that live in multiple Rails applications at once and even run specs properly.
+
+A few notes before we begin:
+
+* This post focuses on models but the same could be applied to controllers, views, and more.
+* I use "RSpec":http://rspec.info/ so the testing solutions come from that perspective.
+* My applications share a database, so I keep all of the migrations in one app and load from a duplicated <code>schema.rb</code> in the other.
+
+h3. Setting Up Your Application
+
+First, you'll need to create your shared directory. I'm mounting all shared components to my <code>RAILS_ROOT/shared</code> directory. So if I have <code>app1</code> and <code>app2</code> then I'll do this in <code>app1</code>:
+
+<pre name='code'>mkdir shared
+cd shared
+touch README
+git init
+git add .
+git commit -m "Initial import of shared repository."
+git remote add origin git@some.git:repository/online.git
+git push</pre>
+
+At this point all we've actually done is create a git repository inside our <code>app1</code> application in the <code>shared</code> directory and pushed it (with an empty README file) to a remote git repository.
+
+What we need to do now is actually delete this git repository and re-add it as a submodule from the remote source (this is from the root of <code>app1</code> again):
+
+<pre name='code'>git submodule add git@some.git:repository/online.git shared
+git submodule init
+git add .
+git commit -m "Added shared directory as submodule"</pre>
+
+What we did here is add the repository as a submodule using the <code>git submodule</code> command. We then ran <code>git submodule init</code> to update our <code>.git/config</code> to reflect the new submodule.
+Finally we committed our changes.
+
+So now we have a submodule living in our application directory, but right now it's empty and Rails doesn't know or care about it! Next we'll set up Rails to make use of the components in the shared directory.
+
+h3. Setting Up Rails To Use Shared Components
+
+Lets say that we're going to create a shared model, <code>SharedModel</code>. We need to put it in the shared directory but still have it picked up by Rails's lazy class loader. So in <code>config/environment.rb</code> you
+will need to add the following:
+
+<pre name='code' class='ruby'>config.load_paths += %W( #{RAILS_ROOT}/shared/models )</pre>
+
+This tells Rails to look for classes in the shared models path. Now we create our model by creating <code>shared/models/shared_model.rb</code>:
+
+<pre name='code' class='ruby'>class SharedModel < ActiveRecord::Base
+
+end</pre>
+
+When creating shared components I tend not to use Rails's model generator, preferring instead to create the class by hand and generate a migration separately in my migration-having app.
+
+This is actually all you need to do to get your shared components running in Rails. Next we'll set up <code>app2</code> to use the same code!
+
+h3. Setting Up The Second Application
+
+To set up the second application, you basically need to simply repeat the same steps you did for the first application starting with <code>git submodule add</code>. So that would be:
+
+* Add the submodule and initialize it.
+* Add the shared directory to the load paths in <code>config/environment.rb</code>
+
+As a note, if you are doing this to an existing application with multiple developers, other developers will simply need to pull from your main application once you've pushed it to a remote and run:
+
+<pre>git submodule init
+git submodule update</pre>
+
+To get the latest revision of the submodule locally for themselves.
+
+h3. Changing Shared Components
+
+To modify shared components, just change them like you would normal files in your repository. The only difference is that when you want to commit changes you will need to do so from the shared directory, push *and then* make a new commit from the root directory. This way you are telling the root repository to track a new revision of the
+submodule.
+
+h3. Testing Shared Components
+
+So just because we're sharing components doesn't mean that we want to abandon *TDD*, does it? In fact, it brings up a somewhat interesting problem. I want to have specs that I can run for the shared components that can run in both applications, in fact I want these specs to run in both applications to make sure that the shared components aren't
+having any compatibility issues. While this isn't extremely difficult to set up, it's not easy, either.
+
+The first step is to create a <code>spec</code> directory inside your shared submodule, and create a <code>spec_helper.rb</code> that simply points back out to the root application's.
+
+In <code>shared/spec/spec_helper.rb</code>:
+
+<pre name='code' class='ruby'>require File.dirname(__FILE__) + '/../../spec/spec_helper'</pre>
+
+We also need to create a pending spec for our SharedModel to make sure that these are running. In <code>shared/spec/models/shared_model_spec.rb</code>:
+
+<pre name='code' class='ruby'>require File.dirname(__FILE__) + '/../spec_helper'
+
+describe SharedModel do
+  it 'should have a pending spec'
+end</pre>
+
+The good news is that if you run <code>autospec</code> from your <code>shared</code> directory, you should be able to see your pending spec run (you will need to create a second <code>spec.opts</code> file in the <code>shared/spec</code> directory for this to use your preferred options). You should push out the changes in your shared directory and get all of your applications up to date. The bad news is that this is the *only* place your specs will run at the moment. Let's change that for the better.
+
+*Note:* You will need to perform the following steps in **each** of your Rails apps that use the shared components.
+
+First to get your specs running with <code>rake spec</code> we will need to modify the task found in <code>lib/tasks/rspec.rake</code> by performing the following substitution:
+
+<pre name='code' class='ruby'># When you see this...
+FileList['spec/**/*/*_spec.rb']
+
+# Change it to this...
+FileList['spec/**/*/*_spec.rb', 'shared/spec/**/*/*_spec.rb']</pre>
+
+That takes care of the spec rake tasks, but there's still the matter of autotesting from your application root. This requires a custom <code>.autotest</code> file in your application root that looks like this:
+
+<pre name='code' class='ruby'>Autotest.add_hook :initialize do |autotest|
+  autotest.add_mapping(%r%^shared/models/.*\.rb$%) { |_, m|
+    autotest.files_matching %r%^shared/spec/.*_spec.rb$%
+  }
+end</pre>
+
+This will automatically pick up changes to your shared models and re-run the specs for all of your shared models when they change. You could get more granular than this, but that's a topic for another day.
+
+h3. Wrapping Up
+
+Now that all of this is done you should be able to freely develop models in the shared directory and have them completely integerated into your normal development workflow. It's quite a bit of work, but once you iron out the kinks it runs beautifully!
+
