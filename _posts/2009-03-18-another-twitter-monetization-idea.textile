@@ -1,0 +1,12 @@
+---
+layout: post
+title: "Yet Another Twitter Monetization Strategy: 'Claimed' Hashtags"
+---
+
+So everyone and their cat have made predictions about how "Twitter":http://www.twitter.com/ will and could monetize (what, you haven't heard of Sprinkles the economic forecasting cat?). I have one more idea, but it's not because I think that this necessarily will happen so much as because I think it would be a fantastic feature to have for businesses on Twitter. The concept is 'claiming' a hash tag.
+
+Now the main Twitter interface pretty much ignores hash tags, but "Twitter Search":http://search.twitter.com/ does not and I see it as a given that hash tags are here to stay. So for hash tags that have to do with an event, a company, or other kinds of definable entities there should be a special text advertising block that can be purchased at the top of the tag search that will allow the entity that the tag is about to explain and maybe provide a few links.
+
+For example, with all of the "endless tweets about SXSW":http://search.twitter.com/search?q=sxsw I think it would be useful both for the SXSW organizers *and for the people looking at the tag* to have a block at the top that says something along the lines of "SXSW is a conference held yearly in Austin, TX that encompasses video, audio, and interactive media" with a couple of links to pertinent information. This provides a context to people clicking through to the Twitter Trends #SXSW tag who wouldn't otherwise know much about the conference and gives SXSW another way to promote themselves.
+
+This system would have to have some pretty stringent acceptance requirements, you wouldn't want competitors to be able to claim their opponent's tags etc. but I also think it has a lot of promise for providing a revenue stream for Twitter and actually useful information for users. I'm not a market prognosticator, and I think it's actually pretty unlikely that this would come to pass, but I do think that it would be an interesting new way to advertise on the web.

@@ -1,0 +1,12 @@
+---
+layout: post
+title: Present.ly Nominated for the WebWare 100
+---
+
+<div style='float: right;'>"!http://www.cnet.com/html/ww/100/2009/images/voteforus/webware100-09_vote_l.jpg!":http://www.cnet.com/html/ww/100/2009/poll/communication.html</div>
+
+Intridea's "Present.ly":http://www.presentlyapp.com has been nominated as a finalist in the "WebWare 100 Communication Category":http://www.cnet.com/html/ww/100/2009/poll/communication.html. We're honored to be chosen from a pool of more than 5,000 applicants to be one of the 300 finalists to compete for the title.
+
+The WebWare 100 is a yearly contest held by CNET that allows the public to pick what the 100 best web applications of the year are. Past winners included such products as GMail and Amazon MP3, so we're very excited to be included as a finalist for this year's selection.
+
+Voting is open right now, so please "vote for us":http://www.cnet.com/html/ww/100/2009/poll/communication.html! Intridea and Present.ly are the reason that I get to make cool open-source stuff for the community, so please help me out and show your support!
