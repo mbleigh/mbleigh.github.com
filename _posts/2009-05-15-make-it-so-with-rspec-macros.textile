@@ -1,0 +1,36 @@
+---
+layout: post
+title: Make it so with RSpec Macros
+---
+
+So I had heard a number of times about writing RSpec macros (like those in the fantastic "Remarkable":http://github.com/carlosbrando/remarkable library) to ease spec writing for repetitive tasks, but the whole process seemed like more effort than it was worth. Not the case! It's actually quite easy to write and include macros for your specs to do some of the standard heavy lifting.
+
+First of all, "this is a great resource":http://www.benmabey.com/2008/06/08/writing-macros-in-rspec/ to get started with how to write the actual macros (or custom matchers) themselves. What tripped me up was how to actually include them in my examples; monkeypatching is never a clean process and even though I knew from the comments on that post that there was a public API for doing it, as with many things about RSpec how to do it didn't seem immediately obvious.
+
+In my case, I was looking to define a quick @login!@ macro that would allow me to easily create a before block to log in as a specified user or just as a FactoryGirl generated one in a "TwitterAuth":http://github.com/mbleigh/twitter-auth based app. Here's the module I wrote and stuck in my @spec_helper.rb@:
+
+<pre class='code' name='ruby'>module LoginMacro
+  def login!(user=Factory(:user))
+    before do
+      @current_user = user
+      controller.stub!(:current_user).and_return(@current_user)
+      session[:user_id] = @current_user.id
+    end
+  end
+end</pre>
+
+So that was relatively straightforward and now what I wanted to be able to do was call it in my controller specs like this:
+
+<pre class='code' name='ruby'>describe UsersController do
+  describe "#create" do
+    login!
+    
+    it 'should etc. etc.'
+  end
+end</pre>
+
+As it turns out, RSpec offers the ability to add macros and matchers via the @config.extend@ and @config.include@ methods on the RSpec "configuration object":http://gitrdoc.com/rdoc/dchelimsky/rspec/cdbdeef23f3496d81799bebfd2091f0d73084138/classes/Spec/Runner/Configuration.html (extend is for class-level macros like the one I wrote here, include is for instance-level matchers). You just have to add this to your spec helper's configuration portion:
+
+<pre name='code' class='ruby'>config.extend(LoginMacro)</pre>
+
+Voila! Now your specs will be able to use the @login!@ macro to set up a user in no time. This really wasn't any kind of grand discovery or new trick that people experienced with RSpec don't already know, but I find that certain things can be hard to come across if you don't already know how to use them so I thought I'd blog for the benefit of others like me.
