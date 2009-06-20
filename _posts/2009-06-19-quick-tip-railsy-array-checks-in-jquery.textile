@@ -1,0 +1,26 @@
+---
+layout: post
+title: "Quick Tip: Railsy Array Checks in jQuery"
+---
+
+I love the @any?@ and @empty?@ convenience methods that Rails and Ruby provide, they make conditional statements much easier to read. I also really dislike the default method of checking this behavior in jQuery:
+
+<pre name='code' class='js'>if ($('some.element').length > 0) {
+  // ...do something
+}</pre>
+
+Well, luckily jQuery is ridiculously easy to extend, so why not just mix that functionality in with a couple of quick shot plugin methods? Just add this javascript sometime after you include jQuery:
+
+<pre name='code' class='js'>jQuery.fn.any = function() {
+  return (this.length > 0);
+}
+
+jQuery.fn.empty = function() {
+  return (this.length == 0);
+}</pre>
+
+That's all you have to do! Now we can make the same call as before, but it looks a little cleaner:
+
+<pre name='code' class='js'>if ($('some.element').any()) {
+  // do something more readably...
+}</pre>
