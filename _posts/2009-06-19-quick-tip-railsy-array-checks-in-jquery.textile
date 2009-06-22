@@ -15,7 +15,7 @@ Well, luckily jQuery is ridiculously easy to extend, so why not just mix that fu
   return (this.length > 0);
 }
 
-jQuery.fn.empty = function() {
+jQuery.fn.none = function() {
   return (this.length == 0);
 }</pre>
 
@@ -24,3 +24,6 @@ That's all you have to do! Now we can make the same call as before, but it looks
 <pre name='code' class='js'>if ($('some.element').any()) {
   // do something more readably...
 }</pre>
+
+*UPDATE:* Apologies, I added in the <code>empty</code> bit as a last-second update to the post and forgot to check and realize that <code>empty()</code> is part of jQuery core. Updated the name to <code>none</code> instead.
+
