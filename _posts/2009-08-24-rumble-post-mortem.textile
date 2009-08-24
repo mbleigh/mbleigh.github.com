@@ -1,0 +1,48 @@
+---
+layout: post
+title: "Good Idea, Bad Idea: Rails Rumble Post-Mortem"
+---
+
+<div style='float:right; margin: 0 0 10px 10px;'><img src='http://img.skitch.com/20090824-eefjcq11tdka135rgmqkn8wcbu.jpg' alt='Thingivore.com'/></div>
+
+The time has come and gone: the 2009 Rails Rumble is over (from a code perspective, anyway). This year myself and the other members of my team (Brent Collier, Dave Naffis, and Ping Yu) put together "Thingivore":http://www.thingivore.com/, a place to show off your collection of movies, games, and books online. As one might expect from a 48-hour marathon application development experience, it was a mixed bag of elation, frustration, fist-pumping and head-hanging as the hours drew to a close. I wanted to take some time to document some of my "lessons learned" so to speak for future Rumblers and app developers in general.
+
+h3. Good Idea: Have a Server Configuration Guru
+
+While the Rumble is primarily a coding contest, it's important to note that *someone* on your team needs to be able to get that Linode server up and running. By having someone who can configure centos servers in their sleep on your team, you don't have to sweat bullets at the prospect of "just getting it running." In fact, Dave Naffis (Intridea co-founder and Rails deployment genius) came in and 45 minutes later said "OK, just hit <code>cap deploy deploy:migrate</code>" whenever you want to update the server. This is including setting up DNS for <code>thingivore.com</code>, getting Ruby, Rails, Apache, Passenger, MySQL, and CouchDB all running and probably all other manner of dark magic I can't comprehend.
+
+Maybe it's because I'm not a server configuration guy, but that's exactly the point: I didn't have to worry about it and could focus on the design and development instead of worrying about whether or not we were going to get it running on the competition machines.
+
+h3. Bad Idea: "Let's Try Something New!"
+
+For some crazy reason, I decided that I wanted to use the Rumble as a way to experiment with new technologies (primarily CouchDB). *Do not do this.* The Rumble is a time to take the skills you know like the back of your hand and apply them with laser-beam focus to build something awesome and complete in 48 hours. While I'm happy with our product, there are reams of features that were cut while I scrambled to understand some of the complexities of complex sorts and other issues with CouchRest and CouchDB.
+
+Of course, it was also fun to learn a new technology and use it in a "trial by fire" circumstance, but ultimately if you want to build something that can win the competition it's probably better to stick to your guns.
+
+h3. Good Idea: As Many Plugins As You Can Actually Use
+
+Ruby and Rails provide some of the most powerful collections of reliable code that you could hope for. We were originally planning to go 100% with CouchDB for the project, but when it became apparent that we would have to roll our own OpenID authentication we decided to slap MySQL in as well (only for user models) so that we could make use of "AuthLogic":http://github.com/binarylogic/authlogic and its OpenID extension. This saved us who-knows-how-many hours of work.
+
+We also used some powerful Javascript libraries to achieve some impressive visual effects quickly and without too much pain. When planning your app, think about what technologies you're using and make sure that there is sufficient library support to get you where you need to be in 48 hours.
+
+h3. Bad Idea: Plans Are For Sissies
+
+This one is somewhat obvious, but it's a good idea to have a strong game plan heading into something as time-limited as the Rumble. It was unavoidable in our case as I was on my honeymoon in Paris until (literally) the day before the competition, but planning in advance would have meant that every team member was utilized every moment they were available instead of spending time figuring out who should be doing what.
+
+That being said, I think there is also value in not planning *too* much. During the competition there will be times when you see things that work and you need to let the application grow organically instead of mechanistically sticking to your original gameplan.
+
+h3. Good Idea: Hang Out In IRC
+
+The <code>#railsrumble</code> IRC channel was a good place to be throughout the competition. You get direct access to a couple hundred other competitors as well as the organizers of the competition. If GitHub goes down, if there's confusion about the rules, you'll get your answers in a couple minutes.
+
+It's also just fun to feel the energy of the competition and everything from "Got it deployed!" to "so much left to do and so little time zomg". I wasn't able to physically be in the same area as any Rumblers, but I still had a great time and lots of comraderie on the IRC channel.
+
+h3. Bad Idea: Last-Minute Anything
+
+You will have things to do until the last minute. *Do not do them.* You will have features you want to implement in the last 2 hours. *Do not implement them.* You will want to tweak the style, tweak a view, tweak something that seems important (but isn't app-crashing) in the last 20 minutes. *Do not do it.* Last-minute changes that aren't to address specific, serious bugs are a terrible idea when you won't have a chance to fix new problems you introduce.
+
+Next year I am going to try to force myself to spend the last 2-3 hours of the competition doing nothing but finding showstoppers on the production site and fixing only those things. Our OpenID flow was damaged in the last hour of the competition (for registration, not login) and we didn't catch it until after pencils down. Never again!
+
+h3. Best Idea: Compete in the Rumble!
+
+All in all, you can't go wrong joining in the Rails Rumble. While your family and non-developer friends probably won't quite understand what's wrong with you ("You work 40 hours, over a weekend, and don't get paid?") you will have a blast and will learn a lot about how to build things inside a pressure cooker. I know that I plan to be back for next year's Rumble, and my thanks go out to my team and everyone who made it possible!
