@@ -1,0 +1,10 @@
+---
+layout: post
+title: "A Fresh Coat of Paint"
+---
+
+It's been about six months since I moved this blog over to GitHub Pages and Jekyll, and that means that it's about time for another site redesign. This time I decided to have a little bit of fun with some CSS3 features such as box shadow but I kept it simple.
+
+Of course, as with the last page design (that I've been very happy to see many people adopt) you're welcome to use this design in part or in whole for your own GitHub pages (the source is "still available here":http://github.com/mbleigh/mbleigh.github.com), but it might be a little more difficult due to the iconography and actual use of graphics.
+
+Thanks, and I hope you keep reading!

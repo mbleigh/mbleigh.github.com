@@ -13,19 +13,17 @@
   <body>
     <div id='wrapper'>
       <div id='header'>
-        <h1>Mister Bleigh</h1>
-        <h2>is Michael Bleigh on the web.</h2>
-      </div>
-      <div id='menu'>
-        <ul>
-          <li><a href='/'>Home</a></li>
-          <li><a href='/blog.html'>Blog</a></li>
-          <li><a href='/about.html'>About</a></li>
-          <li><a href='/open-source.html'>Open Source</a></li>
-          <li><a href='http://github.com/mbleigh' target='_blank' rel='me'>GitHub</a></li>
-          <li><a href='http://www.linkedin.com/in/mbleigh' target='_blank' rel='me'>LinkedIn</a></li>
-          <li><a href='http://twitter.com/mbleigh' target='_blank' rel='me'>Twitter</a></li>
-        </ul>
+        <h1><a href='/'>Michael Bleigh</a></h1>
+        
+        <div id='menu'>
+          <ul>
+            <li><a href='/blog.html' id='blog_link' title='Blog'>Blog</a></li>
+            <li><a href='/about.html' id='about_link' title='About'>About</a></li>
+            <li><a href='http://github.com/mbleigh' target='_blank' title='GitHub' rel='me' id='github_link'>GitHub</a></li>
+            <li><a href='http://www.linkedin.com/in/mbleigh' title='LinkedIn' target='_blank' rel='me' id='linkedin_link'>LinkedIn</a></li>
+            <li><a href='http://twitter.com/mbleigh' title='Twitter' target='_blank' rel='me' id='twitter_link'>Twitter</a></li>
+          </ul>
+        </div>
       </div>
       <div id='content'>
         {{ content }}
