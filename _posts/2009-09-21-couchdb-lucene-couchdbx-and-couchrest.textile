@@ -15,7 +15,9 @@ h3. Unpacking CouchDB Lucene
 
 You will need to place CouchDB Lucene in a convenient location, but first you'll need to unpack the gZip file. Note that, at least for me, *the default Mac unarchiver did not provide a suitable .jar file*. Instead, follow the "README instructions":http://cloud.github.com/downloads/rnewson/couchdb-lucene/README and extract it using the following command:
 
-<pre>http://cloud.github.com/downloads/rnewson/couchdb-lucene/README</pre>
+{% highlight bash %}
+unpack200 couchdb-lucene-0.4-jar-with-dependencies.jar.gz couchdb-lucene-0.4-jar-with-dependencies.jar
+{% endhighlight %}
 
 It doesn't particularly matter where you put it (I put mine in <code>/usr/local/etc</code>) so long as you remember the location.
 
