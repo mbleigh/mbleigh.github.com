@@ -146,8 +146,8 @@ pre {
   overflow: auto;
   color: black;
   line-height: 120%;
-  font-family: "Consolas","Courier New",Courier,monospace;
-  font-size: 12px;
+  font-family: "Consolas",Monaco,"Courier New",Courier,monospace;
+  font-size: 14px;
   letter-spacing: 0;
 }
 

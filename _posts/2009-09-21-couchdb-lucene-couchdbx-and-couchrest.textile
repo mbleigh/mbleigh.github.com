@@ -1,0 +1,93 @@
+---
+layout: post
+title: CouchDB-Lucene, CouchDBX, and CouchRest
+---
+
+I've been playing a lot with "CouchDB":http://couchdb.apache.org/ lately and if you're on OS X there's really no easier way to do so than by using "CouchDBX":http://janl.github.com/couchdbx/, a self-contained application that includes CouchDB, Erlang, and all of the dependencies you need to run Couch.
+
+However, recently I wanted to try the power and functionality of "couchdb-lucene":http://github.com/rnewson/couchdb-lucene for full-text indexing of a CouchDB application on which I was working. It wasn't immediately obvious to me how to make that happen, so I thought I'd share how I got it working for those who might want to do the same. For the record, I am using the following versions of things:
+
+* Mac OS X 10.6 (Snow Leopard)
+* "CouchDBX 0.9.1 R13B pl2":http://cloud.github.com/downloads/janl/couchdbx-core/CouchDBX-0.9.1-R13B-pl2.zip
+* "CouchDB Lucene v0.4":http://cloud.github.com/downloads/rnewson/couchdb-lucene/couchdb-lucene-0.4-jar-with-dependencies.jar.gz
+
+h3. Unpacking CouchDB Lucene
+
+You will need to place CouchDB Lucene in a convenient location, but first you'll need to unpack the gZip file. Note that, at least for me, *the default Mac unarchiver did not provide a suitable .jar file*. Instead, follow the "README instructions":http://cloud.github.com/downloads/rnewson/couchdb-lucene/README and extract it using the following command:
+
+<pre>http://cloud.github.com/downloads/rnewson/couchdb-lucene/README</pre>
+
+It doesn't particularly matter where you put it (I put mine in <code>/usr/local/etc</code>) so long as you remember the location.
+
+h3. Editing the CouchDBX .ini File
+
+Next you will need to edit the CouchDBX <code>local.ini</code> file to add the external for full-text indexing. To access the file, right-click CouchDBX and select "Show Package Contents" then navigate to <code>Contents/Resources/couchdbx-core/couchdb/etc/couchdb/local.ini</code> and open it up in your favorite text editor. You will need to add the following lines to this file, taking note to change the directory to match where you stored your Lucene .jar file.
+
+{% highlight ini %}[couchdb]
+os_process_timeout=60000 ; increase the timeout from 5 seconds.
+
+[external]
+fti=/usr/bin/java -server -Xmx1g -jar /path/to/couchdb-lucene-0.4-jar-with-dependencies.jar -search
+
+[update_notification]
+indexer=/usr/bin/java -server -Xmx1g -jar  /path/to/couchdb-lucene-0.4-jar-with-dependencies.jar -index
+
+[httpd_db_handlers]
+_fti = {couch_httpd_external, handle_external_req, <<"fti">>}{% endhighlight %}
+
+All right, that's all the setup you need to be running CouchDB Lucene! Now you can start up CouchDBX and set up your first search indexes.
+
+h3. Creating a Full-Text Index View
+
+To create a full-text index view, you simply need to add a "fulltext" field to one of your design documents. The URL structure for accessing CouchDB Lucene searches is as follows:
+
+<pre>http://localhost:5984/database_name/_fti/design_doc_name/index_name?q=your+query+here</pre>
+
+Where <code>database_name</code> is any database you have on your system, <code>design_doc_name</code> is any design document in your database, and <code>index_name</code> is a fulltext index you defined. For instance, if I had a "CouchRest":http://github.com/couchrest/couchrest generated design doc for a bunch of music, I might have a design document that looks something like this:
+
+{% highlight javascript %}{
+  "_id":"_design/Song",
+  "_rev":"af12a4b12af1b24afbf244f1",
+  "fulltext":{
+    "my_search":{
+      "index":"function(doc) { if (!doc['couchrest-type'] == 'Song') return null; var ret = new Document(); ret.add(doc.title); ret.add(doc.artist); return ret; }"
+    }
+  }
+}{% endhighlight %}
+
+I would then be able to access the search results with this URL:
+
+<pre>http://localhost:5984/myapp/_fti/Song/my_search?q=Ben+Folds</pre>
+
+Awesome! We now have full-text indexing up and running on CouchDBX!
+
+h3. Bonus: CouchRest Lucene
+
+I use CouchRest extensively in my Ruby CouchDB projects, and I wanted to be able to integrate the new Lucene searches easily. I found "this post":http://zdzolton.wordpress.com/2009/05/04/quick-tip-couchdb-with-lucene-search/ that added a bit of functionality, but I wanted to be able to integrate with ExtendedDocument (and the snippet was also slightly outdated), so I've updated it. Just add this sometime after you include CouchRest:
+
+{% highlight ruby %}class CouchRest::Database
+  def search(design, index, query, options={})
+    CouchRest.get CouchRest.paramify_url("#{@root}/_fti/#{design}/#{index}", options.merge(:q => query))
+  end
+end
+
+class CouchRest::ExtendedDocument
+  def self.search(index, query, options={})
+    options[:include_docs] = true
+    ret = self.database.search(self.to_s, index, query, options)
+    ret['rows'].collect!{|r| self.new(r['doc'])}
+    ret
+  end
+end{% endhighlight %}
+
+What this snippet does is allows you to perform searches on a database directly or by calling a search method on an extended document. Let's look at a couple examples to see how it would work:
+
+{% highlight ruby %}@db = CouchRest.database!("http://localhost:5984/myapp")
+
+@db.search('Song','my_search', 'Ben Folds', :include_docs => true)
+
+# The following is equivalent to the above, but will automatically
+# include the docs and cast the result rows into ExtendedDocuments
+Song.search('my_search', 'Ben Folds'){% endhighlight %}
+
+Now that we have this set up, we're ready to go forth and build full-text search into our CouchDB apps. I hope this is helpful to some who have become somewhat familiar with CouchDB but are looking to push it a little further and try out some of the more advanced usages of CouchDB in their applications.
