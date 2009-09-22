@@ -1,0 +1,59 @@
+---
+layout: post
+title: "TweetStream: Ruby Access to the Twitter Streaming API"
+---
+
+Twitter's "Streaming API":http://apiwiki.twitter.com/Streaming-API-Documentation is one of the most exciting developments in the Twitter API in some time. It gives you the ability to create a long-standing connection to Twitter that receives "push" updates when new tweets matching certain criteria arrive, obviating the need to constantly poll for updates. "TweetStream":http://github.com/intridea/tweetstream is a new Ruby library to access the new API.
+
+h3. Installation
+
+Installation of TweetStream is simple, it's available as a gem on GitHub and "Gemcutter.org":http://gemcutter.org/. To install it from GitHub:
+
+{% highlight bash %}gem sources -a http://gems.github.com
+gem install intridea-tweetstream{% endhighlight %}
+
+To install it from Gemcutter:
+
+{% highlight bash %}gem sources -a http://gemcutter.org
+gem install tweetstream{% endhighlight %}
+
+h3. Usage
+
+TweetStream creates a long-standing HTTP connection to Twitter, so unlike other Twitter libraries you don't simply run it once and deal with the results. Instead, you provide a block that will be yielded to with each new status that arrives. The most basic example is:
+
+{% highlight ruby %}
+require 'rubygems'
+require 'tweetstream'
+
+TweetStream::Client.new('user','pass').sample do |status|
+  puts "#{[status.user.screen_name}] #{status.text}"
+end{% endhighlight%}
+
+This will provide you with a small sample snapshot of all of the updates being posted to Twitter at this moment and print them to the screen. There are also methods available to track single-word keywords as well as the updates of a specified list of user ids (integers, not screen names). You can do that like so:
+
+{% highlight ruby %}# Track the terms 'keyword1' and 'keyword2'
+TweetStream::Client.new('user','pass').track('keyword1', 'keyword2') do |status|
+  puts "#{[status.user.screen_name}] #{status.text}"
+end
+
+# Track users with IDs 123 and 456
+TweetStream::Client.new('user','pass').follow(123, 456) do |status|
+  puts "#{[status.user.screen_name}] #{status.text}"
+end{% endhighlight %}
+
+h3. Daemonization
+
+One of the most useful features of TweetStream is its built-in daemonization functionality. This allows you to create scripts that run in the background of your machine rather than taking up an active process. To create a daemon script, you simply use <code>TweetStream::Daemon</code> instead of <code>TweetStream::Client</code>. Here's an example:
+
+{% highlight ruby %}require 'rubygems'
+require 'tweetstream'
+
+# The third argument is an optional process name.
+TweetStream::Daemon.new('user','pass','tracker').track('keyword1','keyword2') do |status|
+  # Do something like dump the status to ActiveRecord
+  # or anything else you want.
+end{% endhighlight %}
+
+If you were to place the above code in a file called <code>tracker.rb</code> you could then run <code>ruby tracker.rb</code> to see a list of daemonization commands such as start, stop, or run.
+
+TweetStream is a simple wrapper on the Streaming API, but with built-in daemonization provides powerfully flexible means of accessing the Twitter Streaming API using familiar Ruby tools. More complete code documentation is "available at rdoc.info":http://rdoc.info/projects/intridea/tweetstream.
