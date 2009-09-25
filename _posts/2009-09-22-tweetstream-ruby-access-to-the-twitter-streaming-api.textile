@@ -3,7 +3,7 @@ layout: post
 title: "TweetStream: Ruby Access to the Twitter Streaming API"
 ---
 
-Twitter's "Streaming API":http://apiwiki.twitter.com/Streaming-API-Documentation is one of the most exciting developments in the Twitter API in some time. It gives you the ability to create a long-standing connection to Twitter that receives "push" updates when new tweets matching certain criteria arrive, obviating the need to constantly poll for updates. "TweetStream":http://github.com/intridea/tweetstream is a new Ruby library to access the new API.
+Twitter's "Streaming API":http://apiwiki.twitter.com/Streaming-API-Documentation is one of the most exciting developments in the Twitter API in some time. It gives you the ability to create a long-standing connection to Twitter that receives "push" updates when new tweets matching certain criteria arrive, obviating the need to constantly poll for updates. "TweetStream":http://github.com/intridea/tweetstream is a Ruby library to access the new API.
 
 h3. Installation
 
@@ -26,19 +26,19 @@ require 'rubygems'
 require 'tweetstream'
 
 TweetStream::Client.new('user','pass').sample do |status|
-  puts "#{[status.user.screen_name}] #{status.text}"
+  puts "[#{status.user.screen_name}] #{status.text}"
 end{% endhighlight%}
 
 This will provide you with a small sample snapshot of all of the updates being posted to Twitter at this moment and print them to the screen. There are also methods available to track single-word keywords as well as the updates of a specified list of user ids (integers, not screen names). You can do that like so:
 
 {% highlight ruby %}# Track the terms 'keyword1' and 'keyword2'
 TweetStream::Client.new('user','pass').track('keyword1', 'keyword2') do |status|
-  puts "#{[status.user.screen_name}] #{status.text}"
+  puts "[#{status.user.screen_name}] #{status.text}"
 end
 
 # Track users with IDs 123 and 456
 TweetStream::Client.new('user','pass').follow(123, 456) do |status|
-  puts "#{[status.user.screen_name}] #{status.text}"
+  puts "[#{status.user.screen_name}] #{status.text}"
 end{% endhighlight %}
 
 h3. Daemonization
