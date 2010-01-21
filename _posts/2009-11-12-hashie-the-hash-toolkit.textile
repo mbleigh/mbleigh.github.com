@@ -1,0 +1,37 @@
+---
+layout: textile
+title: "Hashie: The Hash Toolkit"
+---
+
+One of my earliest gems was "Mash":http://intridea.com/2008/4/12/mash-mocking-hash-for-total-poser-objects?blog=company, a useful tool for creating mocking objects as a Hash. One of the most common problems people had with Mash was a simple one: it conflicted with another class of the same name in extlib! To address this problem as well as give the project some room to grow, Mash is now part of a new toolkit called *Hashie*. Hashie is available now via Gemcutter and the source, as always, is "available on GitHub":http://github.com/intridea/hashie. To install:
+
+<pre name='code'>gem install hashie</pre>
+
+h3. Hello, Hashie
+
+Hashie is, right now, simply the former Mash code along with a new extended Hash called a Dash. A Dash is a "discrete hash" that has pre-defined properties. It can be used as a dead-simple data object when even something like DataMapper is too heavy, but a Struct is too light (Dash gives you the ability to set per-property defaults as well as initialize from an attributes Hash). For example:
+
+{% highlight ruby %}class Person < Hashie::Dash
+  property :name
+  property :email
+  property :occupation, :default => 'Rubyist'
+end
+
+p = Person.new
+p.name # => nil
+p.occupation # => 'Rubyist'
+p.email = 'abc@def.com'
+p.email # => 'abc@def.com'
+p['awesome'] # => NoMethodError
+
+p = Person.new(:name => "Awesome Guy")
+p.name # => "Awesome Guy"
+p.occupation # => "Rubyist"{% endhighlight %}
+
+The other advantage Hashie has over Mash is that it's built from the ground up to avoid conflicts. Instead of adding <code>stringify_keys</code> methods to the Hash class, it's instead added to a Hashie::Hash subclass. You can, however, get Hashie's few Hash extensions in the Hash class by including the HashExtensions:
+
+{% highlight ruby %}
+Hash.send :include, Hashie::HashExtensions
+{% endhighlight %}
+
+Hopefully the move will make it easier for everyone to use it in their projects without fear of running into conflicts, and hopefully you'll also find the Dash useful. Over time the functionality of Hashie may grow to encompass additional simple and useful extensions of Hash. So install Hashie, your friendly neighborhood Hash toolkit, today!

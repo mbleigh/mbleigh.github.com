@@ -1,0 +1,20 @@
+---
+layout: post
+title: "Rails Quick Tip: Readable Conditional Validation"
+---
+
+This is something that many may already use as a best practice, but if not it's something simple and convenient to add to your repertoire. Sometimes you may have a model that requires additional information if a certain condition is met. For example, I may require a user to add more information about themselves if they wish to be listed publicly, whereas I would not if they do not wish to be listed. By combining ActiveSupport's <code>Object#with_options</code> and ActiveRecord's conditional validations, we can implement this behavior in a straightforward and readable manner (assuming here that there is a boolean field called "listed" in the database that is exposed as a checkbox or similar to the user):
+
+{% highlight ruby %}class User < ActiveRecord::Base
+  # Our standard validations
+  validates_presence_of :login
+  validates_uniqueness_of :login
+
+  # Validations for listed users
+  with_options :if => :listed? do |l|
+    l.validates_presence_of :email
+    l.validates_length_of :description, :minimum => 100
+  end
+end{% endhighlight %}
+
+It's a simple technique that piggybacks off of Rails's automatic construction of existence query methods (in this case, <code>listed?</code>) for fields in the database combined with the mapping power of <code>with_options</code> and standard conditional validations.
