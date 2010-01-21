@@ -27,7 +27,7 @@ require 'tweetstream'
 
 TweetStream::Client.new('user','pass').sample do |status|
   puts "[#{status.user.screen_name}] #{status.text}"
-end{% endhighlight%}
+end{% endhighlight %}
 
 This will provide you with a small sample snapshot of all of the updates being posted to Twitter at this moment and print them to the screen. There are also methods available to track single-word keywords as well as the updates of a specified list of user ids (integers, not screen names). You can do that like so:
 
