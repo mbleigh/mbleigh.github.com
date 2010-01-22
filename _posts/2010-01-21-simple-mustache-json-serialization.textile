@@ -1,0 +1,43 @@
+---
+layout: post
+title: Simple Mustache JSON Serialization
+---
+
+If you've taken a look at "Mustache":http://github.com/defunkt/mustache, the "stupid in a good way" templating engine, you might know that there are also Javascript Mustache renderers such as "Mustache.js":http://github.com/janl/mustache.js. Today I've released a small library called "mustache_json":http://github.com/intridea/mustache_json that allows you to compile your Mustache view objects into JSON, allowing them to be interpreted by Javascript Mustache rendering engines.
+
+What this means for your project is that you will finally have a identical client-side and server-side rendering interface, opening wide the opportunities for pushing more of the rendering work onto the client-side, a boon for many real-time and heavy-interaction applications.
+
+To install @mustache_json@, just get the gem from Gemcutter:
+
+<pre><code>gem install mustache_json</code></pre>
+
+To use it, simply @require 'mustache_json'@ and all of your Mustache objects will automatically be given a @#to_json@ method. For instance:
+
+{% highlight ruby %}
+require 'mustache_json'
+
+class Person < Mustache
+  def initialize(first_name, last_name)
+    context[:first_name], context[:last_name] = first_name, last_name
+  end
+  
+  def initials
+    "#{context[:first_name][0..0]}.#{context[:last_name][0..0]}."
+  end
+  
+  def listing
+    "#{context[:last_name]}, #{context[:first_name]}"
+  end
+end
+
+bob = Person.new('Bob', 'Bobson')
+bob.to_json
+{% endhighlight %}
+
+This will render into a JSON object that looks like this:
+
+{% highlight javascript %}{"last_name":"Bobson","initials":"B.B.","listing":"Bobson, Bob","first_name":"Bob"}{% endhighlight %}
+
+Mustache JSON gives you access to all of the public instance methods you declare in your Mustache as well as any context you have set. It is essentially a fully compiled version of the Mustache view, providing everything another renderer needs to create the actual markup. The JSON back-end for this library is swappable, meaning you can use the JSON gem, JSON pure, ActiveSupport, or Yajl by default (and any other class with an @encode@ method if you've got a different library).
+
+"Documentation is available on RDoc.info":http://rdoc.info/projects/intridea/mustache_json and the "source is available on GitHub":http://github.com/intridea/mustache_json. Stay tuned for posts in the future about utilizing this library to actually perform identical rendering in Ruby and Javascript.
