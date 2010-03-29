@@ -1,0 +1,30 @@
+---
+layout: post
+title: "Hashie Gains a Chainable Hash"
+---
+
+"Hashie":http://intridea.com/2009/11/12/hashie-the-hash-toolkit, Intridea's Hash Toolkit, is today with version 0.2.0 gaining a new member: the Clash.
+
+A Clash is a "Chainable Lazy Hash" that allows you to construct a hash using method syntax. It is meant to be used in a similar way to the way that Rails 2.x's @named_scope@ or Arel's query building work. Let's start with an example:
+
+{% highlight ruby %}
+require 'hashie/clash'
+
+c = Hashie::Clash.new
+c.where(:abc => 'def').order(:created_at)
+
+c == {:where => {:abc => 'def'}, :order => :created_at}
+{% endhighlight%}
+
+Pretty neat, right? But you can go beyond that. Clash also allows you to use bang method notation to create, dive into, and return from sub-hashes. Let me show you what I mean:
+
+{% highlight ruby %}
+c = Hashie::Clash.new
+c.where!.abc('def').ghi(123)._end!.order(:created_at)
+
+c == {:where => {:abc => 'def', :ghi => 123}, :order => :created_at}
+{% endhighlight %}
+
+By using a bang method, you automatically create a subhash that is then the subject of the chain, allowing you to create more keys on that subhash. Then, if you want to jump back up to the top-level hash, you simply call the @_end!@ method to return up one level in the stack (thanks to jQuery for that particular inspiration).
+
+While Clash is a very simple tool, we hope that it could eventually make its way into some of the new ORMs that are cropping up around NoSQL systems (such as "MongoMapper":http://github.com/jnunemaker/mongomapper) to provide the same kind of effortless chaining that has made ActiveRecord so easy to work with.

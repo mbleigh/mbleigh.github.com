@@ -1,0 +1,51 @@
+---
+layout: post
+title: "Ruby Quick Tip: Regular Expressions in Case Statements"
+---
+
+Did you know that you can use regular expressions in @case@ statements in Ruby to check for a match? For instance, if I'm implementing some @method_missing@ functionality and I want to check for bang or question methods, I might be tempted to do something like this:
+
+{% highlight ruby %}
+def method_missing(name, *args)
+  name = name.to_s
+  if name.match(/!$/)
+    puts "Bang Method!"
+  elsif name.match(/\?$/)
+    puts "Query Method?"
+  else
+    super
+  end
+end
+{% endhighlight %}
+
+But it'd be much cleaner if instead it looked like this:
+
+{% highlight ruby %}
+def method_missing(name, *args)
+  case name.to_s
+    when /!$/
+      puts "Bang Method!"
+    when /\?$/
+      puts "Query Method?"
+    else
+      super
+  end
+end
+{% endhighlight %}
+
+This is great, but now what if we want to call out a method for bang and question methods? Thankfully Ruby has us covered there as well:
+
+{% highlight ruby %}
+def method_missing(name, *args)
+  case name.to_s
+    when /^(.*)!$/
+      bang_method($1)
+    when /^(.*)\?$/
+      question_method($1)
+    else
+      super
+  end
+end
+{% endhighlight%}
+
+By using the @$1@ global variable we can access the last regular expression match performed by ruby. This is just one of those little details that makes working with Ruby such a joy.

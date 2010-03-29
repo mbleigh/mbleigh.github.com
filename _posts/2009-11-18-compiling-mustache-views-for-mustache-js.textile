@@ -1,0 +1,84 @@
+---
+layout: post
+title: Compiling Mustache Views for Mustache.js
+---
+
+I've been investigating the usage of "Mustache":http://github.com/defunkt/mustache, the dead-simple templating language with the funny name, and one very enticing aspect of Mustache is that it's so simple it can easily be ported across languages. "Mustache.js":http://github.com/janl/mustache.js is a Javascript implementation of Mustache that works based on a simple JSON hash and a string template. Wouldn't it be awesome if we could use the same Mustache template on the server side and in Javscript without having to construct two sets of logic? Yes it would, and here's how.
+
+h3. Creating a Serializable Mustache
+
+Mustache works by calling methods from the template on the Mustache view object. There are no arguments, no filters, just plain old Ruby methods. Mustache.js works by reading values from a Javascript object or evaluating functions on
+that object. So, if we want to use the same logic to power both our Ruby-built Mustaches and our Javascript-built Mustaches, all we need to do is convert that logic to JSON!
+
+Now, you could write a @#to_json@ method for each of your Mustache views, but where's the DRYness in that? Instead let's create a Serializable Mustache that automatically catalogs the methods that need to be serialized to JSON:
+
+{% highlight ruby %}
+module Mustache::Serializable
+  def self.included(base)
+    base.extend ClassMethods
+  end
+  
+  module ClassMethods
+    def serializable_methods
+      public_instance_methods(false)
+    end
+  end
+
+  def serializable_hash
+    hash = self.class.serializable_methods.inject({}) do |result, method|
+      # Symbolize the method to work better with the Mustache Context.
+      result[method.to_sym] = self.send(method)
+      result
+    end
+    
+    hash.merge!(self.context)
+  end
+
+  def to_json
+    serializable_hash.to_json
+  end
+end
+{% endhighlight %}
+
+That was easy enough! What we're doing is compiling a list of methods that we want to serialize by saying 'any public method that is declared in *this specific Mustache class* should be serialized', constructing a hash from those methods, merging in the Mustache's context, and providing a JSON representation of that hash.
+
+h3. Rendering in Ruby
+
+Now that you have a simple way to serialize to JSON, we need to actually be able to render this Mustache in it's server-side native form: Ruby. Here let's say we're working on a Sinatra application since it has probably the simplest setup. We're not going to use the built-in Sinatra support from Mustache because it will be clearer in the code if we don't. Here's the entire application (make sure you somehow include the serializable code from above):
+
+{% highlight ruby %}
+require 'rubygems'
+require 'sinatra'
+require 'mustache'
+
+class Person < Mustache
+  include Mustache::Serializable
+  
+  def initialize(first_name, last_name)
+    @first_name = first_name
+    @last_name = last_name
+  end
+  
+  def formal_name
+    "#{@last_name}, #{@first_name}"
+  end
+  
+  def initials
+    "#{@first_name[0..0]}.#{@last_name[0..0]}"
+  end
+  
+  template = <<-HTML
+    <dl>
+      <dt>Formal Name:</dt> <dd>{{ formal_name }}</dd>
+      <dt>Initials:</dt> <dd>{{initials}}</dd>
+    </dl>
+  HTML
+end
+
+get '/person/:last_name/:first_name.:format' do
+  @mustache = Person.new(params[:first_name], params[:last_name])
+  @mustache.to_html
+end
+{% endhighlight %}
+
+h3. Rendering in Javascript

@@ -1,0 +1,51 @@
+---
+layout: post
+title: "Redfinger: A Ruby WebFinger Gem"
+---
+
+Just yesterday, Google "turned on webfinger for all GMail accounts":http://www.readwriteweb.com/archives/google_enables_webfinger_for_google_profiles_email_as_identity.php. Today, I'm releasing a RubyGem to help you use the new protocol!
+
+h3. What's a WebFinger?
+
+"WebFinger":http://code.google.com/p/webfinger/ is a new protocol for extracting public information about a person via their e-mail address. It is meant to complement systems such as OpenID as well as give a simple way to get basic information about a user without having to ask them for it.
+
+E-Mail providers can implement WebFinger by creating a special URL (specifically at @/.well-known/host-meta@) that is an XRD XML document telling the requester a URL at which they can find out more about e-mail addresses on their domain. Google's, for example, is @http://www.google.com/s2/webfinger/?q={uri}@. When the WebFinger endpoint is requested with an e-mail address in place of @{uri}@, Google looks up information about that e-mail's public profile and provides it in a standardized XRD XML format.
+
+So why WebFinger when OpenID already exists? Users are used to associating their e-mail address with their identity. It's natural since an e-mail address is (usually) for a specific person. By putting a protocol in place to find out more about an e-mail address without requiring additional input from the user, a host of options become available.
+
+For instance, if I'm an application looking to authenticate using OpenID, I can ask a user for their e-mail address instead of their OpenID URL (something that will confuse mainstream users to no end). Or, if I want to automatcially fill in basic profile information, I can check to see if a parseable profile page is available in a format such as hCard.
+
+h3. Enter Redfinger
+
+Redfinger is a library built to easily consume the WebFinger protocol. Installing it is simple:
+
+<pre>gem install redfinger</pre>
+
+Using it is just as simple:
+
+{% highlight ruby %}
+require 'rubygems'
+require 'redfinger'
+
+finger = Redfinger.finger('youraccount@gmail.com')
+finger.open_id.first.to_s # => "http://www.google.com/profiles/youraccount"
+{% endhighlight %}
+
+Redfinger will query the host of the e-mail domain specified, and, if the Webfinger protocol is supported, retrieve information about that e-mail address including such links as OpenID Provider, hCard URL, and more.
+
+How can you use this today? Well, if you're an OpenID consumer you can use the above code to try to "intelligently find" an OpenID endpoint from an e-mail address. Of course, it will just about only work with Google at the moment (this is an alpha protocol, after all). Or, you could install the @mofo@ gem (a gem for parsing microformats for web pages) and do some neat things with microformats:
+
+{% highlight ruby %}
+require 'rubygems'
+require 'mofo'
+require 'redfinger'
+
+finger = Redfinger.finger('account@gmai.com')
+card = hCard.find(finger.hcard.first.to_s)
+card.fn # => "That GMail user's full name"
+card.title # => "The title he/she entered on Google Profile"
+{% endhighlight%}
+
+Here Redfinger determines a URL that will have hCard information about the e-mail address specified, and the Mofo gem goes out and fetches that address, parsing out the information.
+
+WebFinger is still brand new (Google calls it "alpha") but it shows some promise for being a great way to make the open web more seamless for users. As always, "the Redfinger source code is available on GitHub":http://github.com/intridea/redfinger and "RDoc Documentation":http://rdoc.info/projects/intridea/redfinger is available. Check it out!
