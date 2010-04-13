@@ -1,0 +1,21 @@
+---
+layout: post
+title: Toggle CSS3 Bookmarklet
+---
+
+If you've begun to use CSS3 experimental features in your sites lately such as @box-shadow@, @border-radius@ or @text-shadow@, you know how much pain it can take away from the design process. Unfortunately, lots of people are still using Internet Explorer and can't see all these pretty additions you've added.
+
+I thought it would be useful to have a simple way to run a sanity check on my design to make sure it wasn't going to look awful or unreadable once all of the CSS3 goodies were taken away. With that in mind, I created a bookmarklet that will toggle the display of all of that modern goodness.
+
+Just drag this link: <a href="javascript:void(function(){if(document.getElementById('uncss3')){var uncss=document.getElementById('uncss3');uncss.parentNode.removeChild(uncss);}else{var css='* { -moz-border-radius: 0 !important; -webkit-border-radius: 0 !important; border-radius: 0 !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; box-shadow: none !important; -moz-border-image: none !important; -webkit-border-image: none !important; border-image: none !important; text-shadow: none !important; -webkit-background-origin: border-box !important; -moz-background-origin: border-box !important; background-origin: border-box !important; -moz-background-clip: border-box !important; -webkit-background-clip: border-box !important; background-clip: border-box !important; }';var uncss=document.createElement('style');uncss.setAttribute('type','text/css');uncss.setAttribute('id','uncss3');uncss.innerText=css;document.getElementsByTagName('head')[0].appendChild(uncss);}})();">Toggle CSS3</a> into your bookmark toolbar. Then, by clicking it, you can turn off (and back on) the most common CSS3 improvements. Once installed, if you visit a page such as "CSS3.info":http://www.css3.info/preview/box-shadow/ and click the bookmarklet, you should see the CSS3 effects toggle off.
+
+Note that this is a simple, none-too-bright bookmarklet and only removes the obvious traces of CSS3. It doesn't inspect your CSS for non-supported color values (like RGBA) or deal with many of the more advanced features of CSS3. In fact, all it does is eradicate these styles:
+
+* @border-radius@
+* @box-shadow@
+* @text-shadow@
+* @border-image@
+* @background-origin@
+* @background-clip@
+
+However, it's still a useful tool if you're designing for the future with an eye for the past. Enjoy!
