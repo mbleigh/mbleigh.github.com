@@ -1,0 +1,48 @@
+---
+layout: post
+title: "Announcing the OAuth2 Gem"
+---
+
+While I'd been tracking with great interest the progress of OAuth 2.0, Facebook lit off the powderkeg yesterday by announcing that their entire API was moving to the protocol (as well as to RESTful JSON). As a developer who had been constantly confounded by the relentlessly hostile environment that Facebook seemed to present to developers, yesterday was a sudden and welcome about-face. The acquisition of "FriendFeed":http://friendfeed.com/, it seems, gave Facebook the talent they needed to do it right this time. 
+
+But anyway, on to the news! We have just released a gem for OAuth 2.0 to work with the new Facebook API. You can get it right now:
+
+<pre>gem install oauth2</pre>
+
+We wanted to get this into the hands of developers ASAP so for now the functionality is pretty much limited to the "web server" type of authentication (the protocol includes many different strategies, all of which will be implemented on the gem over time) and has been tested to work with "Facebook's new API":http://developers.facebook.com/docs/api#authorization.
+
+So how do you use it? Here is an example Sinatra application containing all of the code necessary to authenticate and then perform requests against the Facebook API.
+
+<pre name='code' class='ruby'>require 'rubygems'
+require 'sinatra'
+require 'oauth2'
+require 'json'
+
+def client
+  OAuth2::Client.new('api_key', 'api_secret', :site => 'https://graph.facebook.com')
+end
+
+get '/auth/facebook' do
+  redirect client.web_server.authorize_url(
+    :redirect_uri => redirect_uri, 
+    :scope => 'email,offline_access'
+  )
+end
+
+get '/auth/facebook/callback' do
+  access_token = client.web_server.get_access_token(params[:code], :redirect_uri => redirect_uri)
+  user = JSON.parse(access_token.get('/me'))
+
+  user.inspect
+end
+
+def redirect_uri
+  uri = URI.parse(request.url)
+  uri.path = '/auth/facebook/callback'
+  uri.query = nil
+  uri.to_s
+end</pre>
+
+So now you're ready to get started with the new Facebook API! This is still an early release, but I'll be working on it a lot in the coming months, partially as preparation for my "talk at RailsConf":http://en.oreilly.com/rails2010/public/schedule/detail/14071 in which I'll be delving into the OAuth 2.0 specification and what it means for Rails developers in-depth. The code is, of course, "available on GitHub":http://github.com/intridea/oauth2 where you can report any problems you run into. Enjoy!
+
+*Update:* Those who aren't terribly familiar with the protocol may wonder why OAuth 2.0 isn't just rolled into support of the OAuth gem (or why I didn't fork it and do it that way). Honestly, I would have liked to, but OAuth 2.0 is an almost entirely different beast than 1.0a and they share so little functionality that it would basically be two projects living under the same gem name. So that's why!

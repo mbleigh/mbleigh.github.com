@@ -1,0 +1,16 @@
+---
+layout: post
+title: "AuthButtons: Free and Open Source Web App Icons"
+---
+
+More and more web applications are providing external logins through sites such as Twitter, Facebook, and more.  It can be a bit of a pain to assemble suitable buttons for all of these services to display as the "NASCAR box" of logos for users to click when signing up or on to a site.
+
+To make this a little bit easier, Intridea is releasing a collection of free and open-source logo buttons for use, well, however you'd like, but probably for these types of authentication scenarios. This collection is starting with twelve buttons:
+
+<p align='center'><a href='http://github.com/intridea/authbuttons' style='border:none'><img src='http://img.skitch.com/20100601-r69wti94eepdcb8ti3y6areqqi.jpg' alt='Logo Images'/></a></p>
+
+The initial set created are for Twitter, Facebook, Myspace, OpenID, Google, Yahoo, Basecamp, Campfire, Present.ly, Aol, LinkedIn, and GitHub.
+
+This collection will grow over time as we get suggestions (or forks) of new iconography. The idea is simply to provide a clean, consistent set of icons that can be used to represent some of the web's most popular services. Each icon is available in 32x32, 64x64, 128x128, and 256x256 PNGs as well as an Illustrator CS4 source file that contains all of the buttons and individual CS3 .EPS files that contain each button individually.
+
+To see a full download grid for each icon, visit the "GitHub Project Page":http://github.com/intridea/authbuttons. If you have a logo you'd like to see included, please add a request for it to the "GitHub Issues Page":http://github.com/intridea/authbuttons/issues

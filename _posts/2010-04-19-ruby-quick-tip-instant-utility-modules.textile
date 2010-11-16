@@ -1,0 +1,36 @@
+---
+layout: post
+title: "Ruby Quick Tip: Instant Utility Modules"
+---
+
+Sometimes you want to write a batch of utility methods that can be accessed from a module for example @Utility.parse_something(string)@ or any number of useful little tools for your application. Here's a very clean-looking way to achieve it:
+
+<pre name='code' class='ruby'>module Utilities
+  extend self
+
+  def parse_something(string)
+    # do stuff here
+  end
+
+  def other_utility_method(number, string)
+    # do some more stuff
+  end
+end</pre>
+
+By placing @"extend self"@ at the top of the module, you are telling it to include all of the methods defined on your module as class methods on...your module. Which means that you can now access them like other class methods! While there are other ways to do this, I think this is a very semantically clean way that gets it done quite nicely.
+
+*Update:* And this is exactly why I post these Quick Tips, because sometimes there's another solution that I hadn't heard of! Using Ruby's @module_function@ you can achieve the same effect:
+
+<pre name='code' class='ruby'>module Utilities
+  module_function
+  
+  def parse_something(string)
+    # do stuff here
+  end
+
+  def other_utility_method(number, string)
+    # do some more stuff
+  end
+end</pre>
+
+The @module_function@ method either takes multiple symbols as arguments for the methods to turn into module methods or, if invoked without arguments, will cause all subsequent methods to be defined as module functions. You can "read the Ruby documentation about it here":http://ruby-doc.org/core/classes/Module.html#M001642. Ultimately I'm not sure which I'd go with, as @module_function@ is pretty esoteric (I've never come across it in code that I've read), but so is @extend self@. It's your call, developers!

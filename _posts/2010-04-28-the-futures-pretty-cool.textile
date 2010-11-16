@@ -1,0 +1,20 @@
+---
+layout: post
+title: "The Future's Pretty Cool (or Why I Love Ruby)"
+---
+
+There have been tons of comparisons between Ruby and other languages (mostly Python) ranging from the "technical":http://c2.com/cgi/wiki?PythonVsRuby to the "epically titled":http://blog.extracheese.org/2010/02/python-vs-ruby-a-battle-to-the-death.html. I've always felt that both languages are nice, but feel much more at home with the expressive, readable Ruby syntax. And don't get me wrong, I love Ruby for all kinds of language reasons. Re-openable classes, blocks and the general meta-programming DNA of Ruby make it just wonderfully powerful and useful for me as a developer. However, when I think about it the language is really only half the story when it comes to why I love being a Ruby developer.
+
+<p style="float:right; margin:0 0 10px 15px;"><a href='http://xkcd.com/442/' title='I Love The Lisp Chainsaw'><img src='http://img.skitch.com/20100427-nwyu72qkhxhking8626aeixkys.png' alt="XKCD The Future's Pretty Cool"/></a></p>
+
+Whether it's inherent in the makeup of the language and those to whom it appeals or the "buck the mainstream" attitude of Rails's opinionated-ness, Rubyists tend to take to new things like fish to water. An outsider may look at the insane progression of testing frameworks and other different-ways-to-do-the-same-thing and think it's a kind of madness, sickness, or chaos. Well, I suppose it is. However, living inside the Ruby hurricane has helped me to grow as a developer more than I could possibly have imagined in the few years I've been doing it full time. Thanks to Ruby, I was on board with these technologies months or even years before I feel I otherwise would have been (just a few examples):
+
+* *Test-Driven Development:* Already a mainstay in the Ruby community when I joined it, TDD has seen some pretty rapid expansion into other languages and communities. I'm not saying Ruby was the first or only, but it was certainly an early and strong TDD community.
+* *Distributed Version Control:* "GitHub":http://github.com/ is the future not only of project version control but of open-source collaboration. SourceForge by comparison seems like a lumbering dinosaur. Fork, fix, push.
+* *NoSQL:* I was playing with CouchDB about a year ago, not realizing that soon it would be a player in the biggest developer flamewar since Vim vs. Emacs.
+
+I'm not trying to say that X language doesn't promote innovation or adoption of new ideas or Y has an inferior community. This isn't a comparison post. I just know that when it comes to new technologies, most Rubyists I know are already jumping out of the plane while still trying to figure out how the parachute works. That sounds like an insult, but I think it's amazing. We have a community of people so excited about technology that they literally can't wait to build on it or for it, and share it with others. The huge proliferation of regional Ruby conferences speaks to this: we're a group of people so intensely interested in learning about what's new that we can't manage holding just a few mainstream conferences each year.
+ 
+For me, being a part of the Ruby community feels like getting a sneak peek at where software development is going six months to two years from now. That's not to say it's all rainbows and daisies...the constantly changing landscape requires a real passionate dedication to keep up or you'll quickly fall behind, and not all technologies are meant to immediately be deployed to massive-scale production environments (restraint is a skill a good Rubyist must learn and exercise on a regular basis). But I love Ruby because I feel confident that I will be made aware of trends in software development long before I would otherwise be expected to understand them.
+
+It's fun to live in the future.

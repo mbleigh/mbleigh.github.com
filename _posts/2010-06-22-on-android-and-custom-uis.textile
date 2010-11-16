@@ -1,0 +1,36 @@
+---
+layout: post
+title: "On Android and Custom UIs"
+---
+
+<p style='float: right; margin: 0 0 0 10px;'><img src='http://img.skitch.com/20100619-jy7ypsc6ws35ikjs3xcd6rasmc.jpg' alt='Android UI Fragmentation'/></p>
+
+Google's Android has seen an incredible rise in popularity since its first handset was launched less than two years ago. Google has worked hard to earn that popularity, regularly releasing fantastic new improvements to the platform in the form of Donut, Eclaire, and now Froyo. Unfortunately, many users of the Android ecosystem won't see these improvements for years, if at all. The reason? Manufacturers of Android handsets are building custom versions of the OS to add eye-candy and make the UI seem more attractive, at the expense of upgradeability.
+
+HTC has its *Sense UI* and Motorola has *MOTOBLUR*. Samsung and Sony have also thrown their hats into the "heavily modified UI" ring. While these packages may serve to help differentiate from the competition, they are hammering the Android ecosystem by causing fragmentation (and yes, "I do think that's the right word":http://android-developers.blogspot.com/2010/05/on-android-compatibility.html). But it isn't all their fault. One can certainly understand how, when competing against the likes of the iPhone, manufacturers would want to "pretty up" the Android experience. So I've got a few words for these OEMs, and Google as well.
+
+h3. Dear Google
+
+I'm really happy that you're "'laser focused' on the user experience":http://www.androidguys.com/2010/06/18/android-team-shifting-focus-user-experience-gingerbread/ for the next release. Now that you've got it humming at lightning speed with Froyo, it's time to add some polish. Fantastic. But making a better stock UI isn't the only thing that needs to happen to prevent this fragmentation. 
+
+You should be doing everything you can to prevent version fragmentation because it's hurting developers and consumers. When people with G1s see "official Android Twitter client released" but can't download it, they'll get frustrated. They don't know or care about the fact that the G1's limited internal storage means that it *can't* get the next upgrade, they only care that they're supposed to have an Android but they can't get the software they want.
+
+Here's my advice: take the feature lists of Sense and MOTOBLUR et al as a laundry list of areas where your API needs more robustness. If the capabilities of Sense and MOTOBLUR were exposed at an application level, this problem would simply disappear. You've built your platform to be backwards-compatible; if HTC wants to build a "Sense UI" app that changes the appearance of the UI and adds a bunch of widgets, and they want to make that only available on their handsets, more power to them. When the next version of Android comes out, it'll all work seamlessly because they've simply *built an app*, like any other developer.
+
+So keep up the good work on Gingerbread, I'm looking forward to the UI improvements. But also make your UI reachable by applications, provide hooks into the very guts of Android so that manufacturers and developers alike can really "make it their own" without building a custom ROM.
+
+h3. Dear HTC/Motorola/Samsung/Etc.
+
+Thank you for making Android handsets. I'm a huge supporter of the platform, and the level of competition and innovation on Android phones has been amazing. Keep it up! But you're doing yourselves a disservice by building these custom UIs that inhibit the Android version upgrade process.
+
+Google has huge teams of people working to continuously upgrade the Android experience. You get the fruits of this labor *100% for free*. I understand that as a handset manufacturer the idea of upgradeable phones isn't necessarily the most appealing: if people can upgrade the software on their phones, maybe they won't want a new one in 2 years! But trust me, you've shown that you'll make the hardware good enough that people _will_ want new phones.
+
+Instead of locking down a handset to a specific Android version, create an unbeatable suite of _applications_ that comes pre-loaded on your phone. Work on top of, instead of within, the Android operating system. Then you can leverage all of Google's work and all of your own work to provide customers with a great experience. Work with Google to add pieces of API that will help you provide all of the value you want to provide; I'm sure Google would be happy to help as best it can.
+
+Also, while I'm at it, can one of you please create a 4.3" handset running the stock Froyo UI sometime before November? I'd love to get a big-screen phone when my contract's up, but I don't know that I can handle dealing with these custom UI jobs. It's just not for me.
+
+h3. Unicorns and Rainbows
+
+I think that Android is a very important project that came along at just the right time. It has applications far beyond mobile handsets and we'll begin seeing Android in cars, tablets, and more in the very near future. This will mean _even more_ work will be poured into the Android ecosystem creating greater and greater benefits for everyone from consumers to handset manufacturers. All that needs to happen to take advantage of those benefits is for Google to help handset manufacturers free themselves of the idea that they need to "make it their own".
+
+I'm looking forward to the next 40 Android phones, and the 100 after that. I truly think that Android is going to dominate the mobile market five years from now (Apple will still have about the same piece of the pie, but Android will have displaced RIM and Microsoft entirely). So keep up the good work, but how about we all just get along in the meantime.

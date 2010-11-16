@@ -1,0 +1,32 @@
+---
+layout: post
+title: "MultiJSON: The Swappable JSON Handler"
+---
+
+JSON has become ubiquitous. From Facebook and Twitter both declaring it to be the preferred (and in some cases only) option for API access to the new OAuth 2.0 draft spec declaring that JSON is the only acceptable response format for OAuth token responses, JSON is here to stay. What isn't ubiquitous, however, are people's preferred implementations.
+
+As library authors it is our duty to try to support as large a part of the community as possible and do so in a friendly manner. To that end, today we're releasing *MultiJSON*, a simple library that allows you to seamlessly provide multiple JSON backends for your library with intelligent defaulting. Install with a simple @gem install multi_json@ and then get started like so:
+
+{% highlight ruby %}
+require 'multi_json'
+
+# Decode using default engine.
+MultiJson.decode('{"abc":"def"}) # => {"abc" => "def"}')
+
+# Set an engine using a symbol.
+MultiJson.engine = :active_support
+
+# Encode using ActiveSupport
+MultiJson.encode({:abc => "def"}) # => '{"abc":"def"}'
+{% endhighlight %}
+
+This gem is primarily for library authors, allowing you to use the best JSON available on the users' systems without explicitly requiring one library over another. This way you can be sure that your JSON handling will work across implementations (e.g. JRuby) as well as requiring as little extra code as possible (the gem detects existing libraries before requiring more by default).
+
+Engines supported by default are:
+
+* @yajl-ruby@
+* @json@ (gem)
+* @active_support@
+* @json_pure@
+
+We hope that this will make development of JSON-relying libraries a little bit less of a headache for library authors and users alike. The code is, as always, "available on GitHub":http://github.com/intridea/multi_json.

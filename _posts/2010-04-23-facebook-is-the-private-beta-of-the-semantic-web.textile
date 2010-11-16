@@ -1,0 +1,32 @@
+---
+layout: post
+title: "Facebook is the Private Beta of the Semantic Web"
+---
+
+Facebook recently announced their intentions to become the center of the universe for online identity and social connections. While the new functionality of the Facebook Open Graph is exciting and represents a real glimpse into the interconnected semantic web, it has also sparked "numerous":http://thefastertimes.com/mediaandtech/2010/04/22/my-facebook-problem-and-yours/ "concerns":http://blog.jakerlevine.com/post/539731920/if-facebook-is-an-open-platform-then-the-web-is-a about placing so much power into the hands of a single company. As it turns out, not everyone on earth is content with having their Facebook profile be the only representation of their identity on the web. To those sweating over the level of control and power this gives Facebook, I say:
+
+<p align='center'><img src='http://img.skitch.com/20100423-jepjp1x576hxfii15ixfxyuacr.png' alt="Don't Panic!"/></p>
+
+Yes, if Facebook perpetually controlled identity and semantic "Liking" that would be very bad for the web as a community. And it seems like it will be difficult to overcome the hurdle of that damn "Like" button on every page on the internet, right? I mean, sites aren't going to want a NASCAR array of "Like" buttons cluttering up the place. How can anyone be expected to compete with Facebook's 400 million user promise?
+
+h3. Terraforming the Web
+
+<p style='float: right; margin: 0 0 10px 15px'><img src='http://img.skitch.com/20100423-ba4c3fd8ifg7pwwh3w7c7cfbum.png' alt='Terraforming in Action!'/></p>
+
+We should really all be thanking Facebook for what they're doing. They're essentially the first colonization spaceship sent out to the world wide web, a rough-and-tumble wild west crew that gets to make their own rules because they're doing the pioneering. And while their approach may smack of self-interest, you have to realize it could have been so much worse.
+
+The acquisition of FriendFeed seems to be the best thing that could possibly have happened to Facebook, because rather than the openness of FriendFeed being subsumed by the closed past of Facebook, the FriendFeed team seems to have done the impossible: they've convinced Facebook to participate in the broader conversation about open standards (even if tentatively).
+
+The result of Facebook's Open Graph push will basically terraform the web, reshaping it into something new where semantic applications can thrive. Of course Facebook is doing this all for their own benefit...why shouldn't they? But they're also doing it in such a way that they simply will not have control of it forever. So how can this shake out for the best? How can an open protocol with a proprietary "Like" button become the open, semantic web that many dream of? Simple. Browsers.
+
+h3. Firefox and Chrome are the Key
+
+Ultimately the interaction with the semantic web doesn't belong on the website to begin with. That's Web 2.0 thinking. What we're going to see in the next months and years is a move of semantic activity and identity being handled in the browser, either explicitly by the vendor or through extensions on their platform. "Mozilla is already experimenting with this":http://www.azarask.in/blog/post/identity-in-the-browser-firefox/, and I would bet Google has some ideas of their own along the same lines.
+
+<p style='float: left; margin: 0 15px 10px;'><img src='http://img.skitch.com/20100423-ggpf2ucd5r8hx9mhnqbpxjir3a.png' alt='Browser Icons'/></p>
+
+So while Facebook may get to own the "Like" button on the page, once every browser comes with a "Like" button that connects to any number of services according to an open protocol, once I can log into a site using identity stored in my browser and skip the Facebook authorization dance, the semantic web will be realized in full. And the great thing is, everyone will have all of the data they need to build such services thanks to the aggressive partnerships pursued by Facebook.
+
+In essence, *everything* that Facebook announced at F8 ultimately belongs in the browser, not through a single connection to a proprietary service. And the great thing is that not only is that the better solution for proponents of the open web, but it's also *even easier than Facebook* for users of the browsers that eventually gain these features. Facebook has always won the war for identity based on convenience, but nothing is more convenient than the tools built in to my browser of choice.
+
+So thanks, Facebook, for launching the private beta of the semantic web. I can't wait to see what happens when it goes public.
